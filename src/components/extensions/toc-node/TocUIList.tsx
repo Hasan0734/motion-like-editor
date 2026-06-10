@@ -1,7 +1,5 @@
 import React from "react";
-import { Anchors } from "./types";
 import { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
-
 
 interface TocUIListProps {
   items: TableOfContentDataItem[];
@@ -22,8 +20,6 @@ export const TocUIList: React.FC<TocUIListProps> = ({ items }) => {
       </p>
     );
   }
-  // style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
-  // console.log(items)
 
   return (
     <div className="toc-sidebar-progress">
@@ -31,7 +27,7 @@ export const TocUIList: React.FC<TocUIListProps> = ({ items }) => {
         <div
           onClick={() => handleScroll(item.id)}
           key={item.id}
-          className={`toc-sidebar-progress-line ${item.isActive || item.isScrolledOver  ? 'toc-sidebar-progress-line-active' : ''}`}
+          className={`toc-sidebar-progress-line ${item.isActive || item.isScrolledOver ? "toc-sidebar-progress-line-active" : ""}`}
           style={{ "--toc-depth": item.level } as React.CSSProperties}
         ></div>
       ))}

@@ -80,6 +80,7 @@ export const TocSidebar = ({ editor }: { editor: Editor | null }) => {
             <div className="toc-sidebar-popover rounded-2xl p-2 border border-border backdrop-blur-2xl shadow-xl bg-popover">
               {enhancedItems.map((item) => (
                 <div
+                  key={item.id}
                   onClick={() => handleScroll(item.id)}
                   className={cn(
                     `toc-sidebar-item text-sm hover:bg-secondary hover:text-foreground text-muted-foreground rounded-md `,

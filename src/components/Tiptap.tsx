@@ -11,6 +11,7 @@ import { BlockGroupItem } from "./blocks/types";
 import Dragable from "./extensions/drag";
 import { EditorTocSidebar } from "./EditorTocSidebar";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
+import MyBubbleMenu from "./MyBubbleMenu";
 
 // export type EditorProps = {
 //   extensions?: AnyExtension[];
@@ -114,19 +115,20 @@ const Tiptap = () => {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border marker:text-foreground focus:outline-none py-10",
+          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border marker:text-foreground prose-a:text-indigo-600 focus:outline-none py-10",
       },
     },
   });
 
-  const providerValue = useMemo(() => ({ editor }), [editor]);
+  // const providerValue = useMemo(() => ({ editor }), [editor]);
 
   return (
     <>
       <EditorContent className="notion-like-editor-content" editor={editor} />
       {/* <Dragable editor={editor} /> */}
       <TocSidebar editor={editor} />
-      
+      <MyBubbleMenu editor={editor}/>
+
       {/* <EditorTocSidebar editor={editor}/> */}
     </>
   );

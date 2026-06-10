@@ -4,11 +4,11 @@ import { baseKit } from "./base-kit";
 import { BlockGroupItem } from "../blocks/types";
 import { SlashCommand } from "./slash-command";
 import suggestion from "./suggestion";
-import { BulletList, ListItem, ListKit, OrderedList } from '@tiptap/extension-list'
+import { ListKit } from '@tiptap/extension-list'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { getHierarchicalIndexes, TableOfContents } from '@tiptap/extension-table-of-contents'
+import { TableOfContents } from '@tiptap/extension-table-of-contents'
 import { TableKit } from '@tiptap/extension-table'
 import { Gapcursor } from '@tiptap/extensions'
 import { Document } from '@tiptap/extension-document'
@@ -16,7 +16,16 @@ import { Mention } from '@tiptap/extension-mention'
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import { TocNode } from './toc-node/TocNode';
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
+import { Bold } from '@tiptap/extension-bold'
+import { Italic } from '@tiptap/extension-italic'
+import { Strike } from '@tiptap/extension-strike'
+import { Underline } from '@tiptap/extension-underline'
+import { Code } from '@tiptap/extension-code'
+import { Link } from '@tiptap/extension-link'
+import { Highlight } from '@tiptap/extension-highlight'
+import { TextStyle } from '@tiptap/extension-text-style'
+
 
 type ExtensionProps = {
     extensions?: AnyExtension[];
@@ -27,6 +36,20 @@ export function extensions(props: ExtensionProps) {
     const { blocks, extensions = [] } = props;
 
     const defaultExtensions = [
+        Document,
+        Bold,
+        Italic,
+        Strike,
+        Underline,
+        Code,
+        Link.configure({
+            openOnClick: false,
+            enableClickSelection: true,
+
+        }),
+        Highlight,
+        TextStyle,
+
         Document,
         SlashCommand.configure({
             suggestion
@@ -59,13 +82,7 @@ export function extensions(props: ExtensionProps) {
             }
         }),
         TableOfContents.configure({
-            getId: () => uuidv4(),
-            onUpdate(content) {
-                console.log(content.map((item) => item.isActive))
-                console.log(content.map((item) => item.isScrolledOver))
-
-            }
-            
+            getId: () => uuidv4()
 
         }),
         // TocNode.configure({
@@ -95,7 +112,7 @@ export function extensions(props: ExtensionProps) {
                 class: 'my-custom-divider', // Optional: add custom tailwind/CSS classes
             },
         }),
-        
+
     ]
 
     return [
