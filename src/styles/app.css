@@ -1,0 +1,368 @@
+@import "tailwindcss";
+/* @layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme); */
+/* Skip this line entirely: @import "tailwindcss/preflight.css" layer(base); */
+/* @import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss/components.css" layer(components); */
+
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  html,
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  .using-mouse * {
+    outline: none !important;
+  }
+  /* h1 {
+    @apply text-3xl font-bold text-slate-900 my-4;
+  }
+  a {
+    @apply text-blue-600 underline hover:text-blue-800;
+  }
+  p {
+    @apply text-base text-slate-700 leading-relaxed mb-4;
+  } */
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Geist Variable", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+.drag-handle {
+  transition-property: top;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+}
+
+@media screen and (max-width: 480px) {
+  .notion-like-editor-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+  }
+}
+
+.notion-like-editor-layout {
+  --content-width: minmax(auto, 708px);
+  --margin-width: minmax(96px, 1fr);
+  grid-template-columns:
+    [full-start] var(--margin-left-width, var(--margin-width))
+    [content-start] var(--content-width) [content-end] var(
+      --margin-right-width,
+      var(--margin-width)
+    )
+    [full-end];
+  width: 100%;
+  display: grid;
+  position: relative;
+}
+
+@media screen and (max-width: 1024px) {
+  .notion-like-editor-layout {
+    --margin-width: minmax(1rem, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notion-like-editor-layout {
+    display: block;
+  }
+}
+
+.notion-like-editor-content {
+  flex-direction: column;
+  flex: 1;
+  grid-column: content-start/content-end;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+@media screen and (max-width: 768px) {
+  .notion-like-editor-content {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+.toc-sidebar {
+  --toc-indent: 0.75rem;
+  --toc-depth-factor: 1;
+  --toc-progress-indent: 0.25rem;
+  --toc-progress-width-base: 1rem;
+  --toc-progress-width-min: 0.25rem;
+}
+
+/* .dark .toc-sidebar {
+
+} */
+
+.toc-sidebar {
+  z-index: 80;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+  flex-direction: column;
+  grid-area: 1 / content-end/-1/full-end;
+  width: 100%;
+  padding-inline-start: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar-wrapper {
+  opacity: 1;
+  pointer-events: auto;
+  flex-direction: row;
+  margin-left: auto;
+  transition: opacity 0.2s;
+  display: flex;
+  position: sticky;
+  top: 130px;
+}
+
+.toc-sidebar-inner {
+  z-index: 10;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 0.625rem;
+  padding-bottom: 0.75rem;
+  padding-right: 0.5rem;
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar-progress {
+  flex-direction: column;
+  row-gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.25rem;
+  display: flex;
+}
+
+.toc-sidebar-progress-line {
+  background-color: var(--input);
+  height: 0.125rem;
+  margin-left: calc(
+    var(--toc-progress-indent) * (var(--toc-depth, 1) - 1) *
+      var(--toc-depth-factor)
+  );
+  width: max(
+    var(--toc-progress-width-min),
+    var(--toc-progress-width-base) - var(--toc-progress-indent) *
+      (var(--toc-depth, 1) - 1)
+  );
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease-out;
+}
+
+.toc-sidebar-progress-line-active {
+  background-color: var(--foreground);
+}
+
+.toc-sidebar-nav {
+  pointer-events: none;
+  opacity: 0;
+  padding-inline: 0.625rem;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
+  display: flex;
+  position: absolute;
+  z-index: 20;
+  top: -0.625rem;
+  right: 0;
+  transform: translate(10px);
+}
+
+.toc-sidebar-nav--hidden {
+  display: none;
+}
+
+.toc-sidebar-popover {
+
+  width: 250px;
+  max-height: 24rem;
+  flex-grow: 1;
+  margin-right: -0.625rem;
+  scroll-margin: 0.25rem;
+  overflow: auto;
+}
+
+.toc-sidebar-item {
+  min-height: 1.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  align-items: center;
+  margin-inline-start: calc(
+    var(--toc-indent) * (var(--toc-depth, 1) - 1) * var(--toc-depth-factor)
+  );
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+  transition: all 0.15s;
+  overflow: hidden;
+}
+
+
+.toc-sidebar.toc-sidebar--dense {
+  --toc-depth-factor: 0.75;
+}
+
+.toc-sidebar.toc-sidebar--loose {
+  --toc-depth-factor: 1.25;
+}
+
+@media (hover: hover) {
+  .toc-sidebar-wrapper:hover .toc-sidebar-nav {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(0px);
+  }
+}
+
+@media (hover: none) {
+  .toc-sidebar-nav {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(0px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+}
