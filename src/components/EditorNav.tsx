@@ -11,15 +11,41 @@ import {
   DropdownMenuSeparator,
   DropdownMenu,
 } from "./ui/dropdown-menu";
+import { Editor } from "@tiptap/core";
+import { useEditorState } from "@tiptap/react";
 
-const EditorNav = () => {
+const EditorNav = ({ editor }: { editor: Editor | null }) => {
+  if (!editor) {
+    return;
+  }
+
+  const { canUndo, canRedo } = useEditorState({
+    editor,
+    selector: (ctx) => {
+      return {
+        canUndo: ctx.editor.can().chain().focus().undo().run(),
+        canRedo: ctx.editor.can().chain().focus().redo().run(),
+      };
+    },
+  });
+
   return (
     <div className="flex items-center justify-end py-2 px-4 border-b border-border gap-2 ">
       <div className="flex gap-1">
-        <Button size={"icon"} variant={"ghost"}>
+        <Button
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!canUndo}
+          size={"icon"}
+          variant={"ghost"}
+        >
           <Undo />
         </Button>
-        <Button size={"icon"} variant={"ghost"}>
+        <Button
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!canRedo}
+          size={"icon"}
+          variant={"ghost"}
+        >
           <Redo />
         </Button>
       </div>

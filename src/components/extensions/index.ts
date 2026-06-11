@@ -28,6 +28,7 @@ import { TextStyle, Color, BackgroundColor } from '@tiptap/extension-text-style'
 import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { TextAlign } from "@tiptap/extension-text-align"
+import { UndoRedo } from '@tiptap/extensions'
 import { Indent } from './Indent';
 
 
@@ -41,6 +42,7 @@ export function extensions(props: ExtensionProps) {
 
     const defaultExtensions = [
         Document,
+        UndoRedo,
         Bold,
         Italic,
         Strike,
