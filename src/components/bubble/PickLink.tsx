@@ -1,10 +1,10 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CornerDownLeft, ExternalLink, Link, Trash } from "lucide-react";
-import TooltipWraper from "./TooltipWraper";
-import { Button } from "./ui/button";
+import TooltipWraper from "../TooltipWraper";
+import { Button } from "../ui/button";
 import { Editor } from "@tiptap/core";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import { useEditorState } from "@tiptap/react";
 import { cn } from "~/lib/utils";
 

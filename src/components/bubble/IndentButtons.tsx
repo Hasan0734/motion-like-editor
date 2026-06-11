@@ -1,4 +1,4 @@
-import ToggleButton from "./ToggleButton";
+import ToggleButton from "../ToggleButton";
 import { Editor,  } from "@tiptap/react";
 import { ListIndentDecrease, ListIndentIncrease } from "lucide-react";
 

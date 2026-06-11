@@ -11,7 +11,7 @@ import { BlockGroupItem } from "./blocks/types";
 import Dragable from "./extensions/drag";
 import { EditorTocSidebar } from "./EditorTocSidebar";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
-import MyBubbleMenu from "./MyBubbleMenu";
+import MyBubbleMenu from "./bubble/MyBubbleMenu";
 
 // export type EditorProps = {
 //   extensions?: AnyExtension[];

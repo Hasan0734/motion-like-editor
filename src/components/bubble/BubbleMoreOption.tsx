@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TooltipWraper from "./TooltipWraper";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+import TooltipWraper from "../TooltipWraper";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 import {
   EllipsisVertical,
   ListIndentDecrease,
@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 import { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
-import { Separator } from "./ui/separator";
-import ToggleButton from "./ToggleButton";
+import { Separator } from "../ui/separator";
+import ToggleButton from "../ToggleButton";
 import IndentButtons from "./IndentButtons";
 
 const BubbleMoreOption = ({ editor }: { editor: Editor }) => {

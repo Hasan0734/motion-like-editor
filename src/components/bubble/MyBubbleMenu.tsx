@@ -11,14 +11,15 @@ import {
   Underline,
 } from "lucide-react";
 
-import ToggleButton from "./ToggleButton";
+import ToggleButton from "../ToggleButton";
 import { useEditorState } from "@tiptap/react";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import TooltipWraper from "./TooltipWraper";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+import TooltipWraper from "../TooltipWraper";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import PickLink from "./PickLink";
 import BubbleMoreOption from "./BubbleMoreOption";
+import ColorDropdown from "./ColorDropdown";
 
 const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
@@ -89,8 +90,10 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       <Separator orientation="vertical" />
       <div className="relative flex gap-0.5">
         <PickLink editor={editor} />
-        <BubbleMoreOption editor={editor} />
+        <ColorDropdown/>
       </div>
+      <Separator orientation="vertical" />
+      <BubbleMoreOption editor={editor} />
     </BubbleMenu>
   );
 };

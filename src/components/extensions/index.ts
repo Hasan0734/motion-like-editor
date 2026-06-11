@@ -24,7 +24,7 @@ import { Underline } from '@tiptap/extension-underline'
 import { Code } from '@tiptap/extension-code'
 import { Link } from '@tiptap/extension-link'
 import { Highlight } from '@tiptap/extension-highlight'
-import { TextStyle } from '@tiptap/extension-text-style'
+import { TextStyle, Color, BackgroundColor } from '@tiptap/extension-text-style'
 import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { TextAlign } from "@tiptap/extension-text-align"
@@ -59,7 +59,8 @@ export function extensions(props: ExtensionProps) {
         }),
         Highlight,
         TextStyle,
-        Document,
+        Color,
+        BackgroundColor,
         SlashCommand.configure({
             suggestion
         }),
