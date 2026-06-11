@@ -236,3 +236,13 @@ mark[style] > strong {
   flex: 1;
   min-width: 0;
 }
+
+
+.tiptap.ProseMirror {
+    --tt-indent-unit: 24px
+}
+
+.tiptap.ProseMirror [data-indent] {
+    margin-left: calc(var(--tt-indent-unit)*var(--tt-indent-level,0));
+    transition: margin-left .2s ease-in-out
+}

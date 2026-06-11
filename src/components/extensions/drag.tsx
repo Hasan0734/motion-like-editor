@@ -6,7 +6,14 @@ import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { CommandListItems } from "./command-list";
 import { blockItems } from "./suggestion";
 
-const Dragable = ({ editor, range }: { editor: Editor, range: Range }) => {
+const Dragable = ({
+  editor,
+}: {
+  editor: Editor | null;
+}) => {
+  if (!editor) {
+    return;
+  }
   return (
     <DragHandle
       editor={editor}
@@ -23,7 +30,7 @@ const Dragable = ({ editor, range }: { editor: Editor, range: Range }) => {
               <Plus />
             </Button>
           </DropdownMenuTrigger>
-          <CommandListItems range={range} editor={editor}  groups={items}/>
+          {/* <CommandListItems range={range} editor={editor} groups={items} /> */}
         </DropdownMenu>
         <Button variant={"ghost"} className="" size={"icon-sm"}>
           <GripVertical />

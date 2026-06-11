@@ -4,6 +4,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import {
   EllipsisVertical,
+  ListIndentDecrease,
+  ListIndentIncrease,
   Subscript,
   Superscript,
   TextAlignCenter,
@@ -15,6 +17,7 @@ import { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
 import { Separator } from "./ui/separator";
 import ToggleButton from "./ToggleButton";
+import IndentButtons from "./IndentButtons";
 
 const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +51,7 @@ const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
         </PopoverTrigger>
       </TooltipWraper>
       <PopoverContent
-        className="p-1 rounded-xl w-78.75 "
+        className="p-1 rounded-xl max-w-fit "
         side="top"
         align="center"
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -103,6 +106,9 @@ const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
               }
             />
           </div>
+          <Separator orientation="vertical" />
+          <IndentButtons editor={editor} />
+        
         </div>
       </PopoverContent>
     </Popover>

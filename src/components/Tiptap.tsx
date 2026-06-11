@@ -125,7 +125,7 @@ const Tiptap = () => {
   return (
     <>
       <EditorContent className="notion-like-editor-content" editor={editor} />
-      {/* <Dragable editor={editor} /> */}
+      <Dragable editor={editor} />
       <TocSidebar editor={editor} />
       <MyBubbleMenu editor={editor}/>
 

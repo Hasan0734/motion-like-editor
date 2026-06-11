@@ -28,6 +28,7 @@ import { TextStyle } from '@tiptap/extension-text-style'
 import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { TextAlign } from "@tiptap/extension-text-align"
+import { Indent } from './Indent';
 
 
 type ExtensionProps = {
@@ -117,8 +118,12 @@ export function extensions(props: ExtensionProps) {
         }),
         HorizontalRule.configure({
             HTMLAttributes: {
-                class: 'my-custom-divider', // Optional: add custom tailwind/CSS classes
+                class: 'my-custom-divider',
             },
+        }),
+        Indent.configure({
+            types: ['paragraph', 'heading'],
+            indentSize: 24,
         }),
 
     ]
