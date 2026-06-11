@@ -115,7 +115,7 @@ const Tiptap = () => {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border marker:text-foreground prose-a:text-indigo-600 focus:outline-none py-10",
+          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });

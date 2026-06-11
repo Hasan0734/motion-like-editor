@@ -18,6 +18,7 @@ import { Button } from "./ui/button";
 import TooltipWraper from "./TooltipWraper";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import PickLink from "./PickLink";
+import BubbleMoreOption from "./BubbleMoreOption";
 
 const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
@@ -86,8 +87,9 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         />
       </div>
       <Separator orientation="vertical" />
-      <div className="relative">
-        <PickLink editor={editor}/>
+      <div className="relative flex gap-0.5">
+        <PickLink editor={editor} />
+        <BubbleMoreOption editor={editor} />
       </div>
     </BubbleMenu>
   );

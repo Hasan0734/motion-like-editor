@@ -95,7 +95,7 @@ const PickLink = ({ editor }: { editor: Editor }) => {
             </Button>
           </div>
           <Separator orientation="vertical" />
-          <div className="flex gap-1">
+          <div className="flex gap-0.5">
             <Button disabled={!url} variant={"ghost"} size={"icon"} asChild>
               <a
                 href={url || undefined}

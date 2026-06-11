@@ -25,6 +25,9 @@ import { Code } from '@tiptap/extension-code'
 import { Link } from '@tiptap/extension-link'
 import { Highlight } from '@tiptap/extension-highlight'
 import { TextStyle } from '@tiptap/extension-text-style'
+import { Subscript } from "@tiptap/extension-subscript"
+import { Superscript } from "@tiptap/extension-superscript"
+import { TextAlign } from "@tiptap/extension-text-align"
 
 
 type ExtensionProps = {
@@ -42,14 +45,19 @@ export function extensions(props: ExtensionProps) {
         Strike,
         Underline,
         Code,
+        Subscript,
+        Superscript,
         Link.configure({
             openOnClick: false,
             enableClickSelection: true,
 
         }),
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+            alignments: ['left', 'center', 'right', 'justify'],
+        }),
         Highlight,
         TextStyle,
-
         Document,
         SlashCommand.configure({
             suggestion
