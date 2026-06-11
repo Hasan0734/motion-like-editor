@@ -57,7 +57,7 @@ export function extensions(props: ExtensionProps) {
             types: ['heading', 'paragraph'],
             alignments: ['left', 'center', 'right', 'justify'],
         }),
-        Highlight,
+        Highlight.configure({ multicolor: true }),
         TextStyle,
         Color,
         BackgroundColor,

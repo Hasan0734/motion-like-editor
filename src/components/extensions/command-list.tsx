@@ -38,20 +38,15 @@ const CommandList = forwardRef<unknown, CommandListProps>((props, ref) => {
   }, [groups]);
 
   const selectItem = (index: number) => {
-
     const item = flatCommands[index];
-    console.log(item)
     if (item) {
       command(item);
     }
   };
-  console.log(flatCommands)
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="sr-only">
-      
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger className="sr-only"></DropdownMenuTrigger>
       <CommandListItems
         groups={groups}
         selectedIndex={selectedIndex}

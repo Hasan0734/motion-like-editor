@@ -5,8 +5,8 @@ import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { NotFound } from "~/components/NotFound";
 import { ThemeProvider } from "~/components/theme-provider";
-import editorScss from "~/styles/tiptap.scss?url";
 import appCss from "~/styles/app.css?url";
+import colors from "~/styles/colors.css?url";
 import prosemirror from "~/styles/prosemirror.css?url";
 import { TooltipProvider } from "~/components/ui/tooltip";
 
@@ -23,7 +23,7 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "stylesheet", href: editorScss },
+      { rel: "stylesheet", href: colors },
       { rel: "stylesheet", href: prosemirror },
 
       {
