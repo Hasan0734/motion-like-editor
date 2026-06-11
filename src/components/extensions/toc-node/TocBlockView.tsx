@@ -1,8 +1,7 @@
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
 import React from "react";
 import { TocUIList } from "./TocUIList";
-import { Anchors } from "./types";
-import { TableOfContentData, TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
+import {  TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
 
 const TocBlockView: React.FC<NodeViewProps> = ({ editor }) => {
   const headings: TableOfContentDataItem[] = editor.storage.tableOfContents?.content || [];

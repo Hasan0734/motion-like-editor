@@ -1,10 +1,8 @@
 import DragHandle from "@tiptap/extension-drag-handle-react";
 import { GripVertical, Plus } from "lucide-react";
 import { Button } from "../ui/button";
-import { Editor, Range } from "@tiptap/core";
+import { Editor } from "@tiptap/core";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { CommandListItems } from "./command-list";
-import { blockItems } from "./suggestion";
 
 const Dragable = ({
   editor,

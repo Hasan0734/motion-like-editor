@@ -1,25 +1,12 @@
-import {
-  useEditor,
-  EditorContent,
-  EditorContext,
-  AnyExtension,
-} from "@tiptap/react";
-import { useMemo, useState } from "react";
-
+import { useEditor, EditorContent } from "@tiptap/react";
 import { extensions as defaultExtensions } from "./extensions";
-import { BlockGroupItem } from "./blocks/types";
 import Dragable from "./extensions/drag";
-import { EditorTocSidebar } from "./EditorTocSidebar";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 
-// export type EditorProps = {
-//   extensions?: AnyExtension[];
-//   blocks?: BlockGroupItem[];
-// };
-
 const Tiptap = () => {
   const editor = useEditor({
+    enableContentCheck: false,
     immediatelyRender: false,
     extensions: defaultExtensions({
       extensions: [],
@@ -115,7 +102,7 @@ const Tiptap = () => {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
+          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });
@@ -127,9 +114,8 @@ const Tiptap = () => {
       <EditorContent className="notion-like-editor-content" editor={editor} />
       <Dragable editor={editor} />
       <TocSidebar editor={editor} />
-      <MyBubbleMenu editor={editor}/>
+      <MyBubbleMenu editor={editor} />
 
-      {/* <EditorTocSidebar editor={editor}/> */}
     </>
   );
 };

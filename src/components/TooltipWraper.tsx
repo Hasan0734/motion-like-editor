@@ -1,6 +1,5 @@
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import React from "react";
-import { Button } from "./ui/button";
 
 interface PropsType {
   children: React.ReactNode;

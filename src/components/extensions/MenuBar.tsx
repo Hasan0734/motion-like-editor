@@ -1,6 +1,4 @@
 import { Editor } from "@tiptap/core"
-import Highlight from '@tiptap/extension-highlight'
-import TextAlign from "@tiptap/extension-text-align";
 const MenuBar = ({ editor }: {editor: Editor}) => {
   if (!editor) {
     return null

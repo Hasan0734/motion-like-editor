@@ -4,8 +4,6 @@ import {
   Bold,
   Code,
   Italic,
-  Link,
-  Sparkle,
   Sparkles,
   Strikethrough,
   Underline,
@@ -16,10 +14,10 @@ import { useEditorState } from "@tiptap/react";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import TooltipWraper from "../TooltipWraper";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import PickLink from "./PickLink";
 import BubbleMoreOption from "./BubbleMoreOption";
 import ColorDropdown from "../color/ColorDropdown";
+import TextTurnInto from "./TextTurnInto";
 
 const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
@@ -41,7 +39,7 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   return (
     <BubbleMenu
       editor={editor}
-      className="bg-card not-prose border shadow rounded-xl px-1 flex items-center gap-1 py-1"
+      className="bg-card not-prose border shadow-xl rounded-xl px-1 flex items-center gap-1 py-1"
     >
       <div>
         <TooltipWraper title="Improve">
@@ -50,6 +48,9 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
           </Button>
         </TooltipWraper>
       </div>
+      <Separator orientation="vertical" />
+      <TextTurnInto editor={editor}/>
+      <Separator orientation="vertical" />
       <div className=" flex items-center gap-1 ">
         <ToggleButton
           tooltip="Bold"
@@ -90,7 +91,7 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       <Separator orientation="vertical" />
       <div className=" flex gap-0.5">
         <PickLink editor={editor} />
-        <ColorDropdown editor={editor}/>
+        <ColorDropdown editor={editor} />
       </div>
       <Separator orientation="vertical" />
       <BubbleMoreOption editor={editor} />

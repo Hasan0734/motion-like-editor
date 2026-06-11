@@ -70,7 +70,7 @@ const PickLink = ({ editor }: { editor: Editor }) => {
         </PopoverTrigger>
       </TooltipWraper>
       <PopoverContent
-        className="p-1.5 rounded-xl w-78.75 "
+        className="p-1.5 rounded-xl w-78.75 shadow-xl"
         side="bottom"
         align="center"
       >

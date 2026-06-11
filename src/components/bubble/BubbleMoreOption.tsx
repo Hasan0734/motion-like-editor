@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TooltipWraper from "../TooltipWraper";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import {
   EllipsisVertical,
-  ListIndentDecrease,
-  ListIndentIncrease,
   Subscript,
   Superscript,
   TextAlignCenter,
@@ -51,7 +49,7 @@ const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
         </PopoverTrigger>
       </TooltipWraper>
       <PopoverContent
-        className="p-1 rounded-xl max-w-fit "
+        className="p-1 rounded-xl max-w-fit shadow-xl"
         side="top"
         align="center"
         onOpenAutoFocus={(e) => e.preventDefault()}

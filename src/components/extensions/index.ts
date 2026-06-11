@@ -15,13 +15,13 @@ import { Document } from '@tiptap/extension-document'
 import { Mention } from '@tiptap/extension-mention'
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import { TocNode } from './toc-node/TocNode';
 import { v4 as uuidv4 } from 'uuid'
 import { Bold } from '@tiptap/extension-bold'
 import { Italic } from '@tiptap/extension-italic'
 import { Strike } from '@tiptap/extension-strike'
 import { Underline } from '@tiptap/extension-underline'
 import { Code } from '@tiptap/extension-code'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Link } from '@tiptap/extension-link'
 import { Highlight } from '@tiptap/extension-highlight'
 import { TextStyle, Color, BackgroundColor } from '@tiptap/extension-text-style'
@@ -46,6 +46,7 @@ export function extensions(props: ExtensionProps) {
         Strike,
         Underline,
         Code,
+        CodeBlock,
         Subscript,
         Superscript,
         Link.configure({

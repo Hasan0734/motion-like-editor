@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useState } from "react";
 
 import { ChevronDown } from "lucide-react";
 import TooltipWraper from "../TooltipWraper";
@@ -10,6 +10,15 @@ import TextButton from "./TextButton";
 import HighlightButton from "./HighlightButton";
 import { TextIcon } from "./icon";
 import { useEditorState } from "@tiptap/react";
+
+const RECENT_COLORS_KEY = "recentlyUsedColors";
+const MAX_RECENT = 3;
+
+const getRecentColors = (): Color[] => {
+  if (typeof window === "undefined") return [];
+  const stored = localStorage.getItem(RECENT_COLORS_KEY);
+  return stored ? JSON.parse(stored) : [];
+};
 
 type Color = {
   name: string;
@@ -86,16 +95,13 @@ const groupColors: GroupColors[] = [
 ];
 
 const ColorDropdown = ({ editor }: { editor: Editor }) => {
-  const [items, setItems] = useState(groupColors);
-
-  // useEffect(() => {
-  //   const recentlyUsedColors = localStorage.getItem("recentlyUsedColors");
-  //   const recent = {
-  //     title: "Recently Used",
-  //     colors: [{ name: "Default", value: "default", type: "background" }],
-  //   };
-  //   setItems((prev) => [recent, ...prev]);
-  // }, []);
+  const [items, setItems] = useState<GroupColors[]>(() => {
+    const recent = getRecentColors();
+    if (recent.length > 0) {
+      return [{ title: "Recently used", colors: recent }, ...groupColors];
+    }
+    return groupColors;
+  });
 
   const { textColor, highlightColor } = useEditorState({
     editor,
@@ -105,7 +111,21 @@ const ColorDropdown = ({ editor }: { editor: Editor }) => {
     }),
   });
 
-  console.log({ textColor, highlightColor });
+  const handleAddRecentUsed = (color: Color) => {
+    const currentRecent = getRecentColors();
+
+    const filtered = currentRecent.filter(
+      (c) => c.value !== color.value || c.type !== color.type,
+    );
+
+    const updatedRecent = [color, ...filtered].slice(0, MAX_RECENT);
+    localStorage.setItem(RECENT_COLORS_KEY, JSON.stringify(updatedRecent));
+
+    setItems(() => {
+      const recentItem = { title: "Recently used", colors: updatedRecent };
+      return [recentItem, ...groupColors];
+    });
+  };
 
   return (
     <Popover>
@@ -127,7 +147,11 @@ const ColorDropdown = ({ editor }: { editor: Editor }) => {
           </Button>
         </PopoverTrigger>
       </TooltipWraper>
-      <DropdwonContent items={items} editor={editor} />
+      <DropdwonContent
+        items={items}
+        editor={editor}
+        handleAddRecentUsed={handleAddRecentUsed}
+      />
     </Popover>
   );
 };
@@ -137,51 +161,55 @@ export default ColorDropdown;
 const DropdwonContent = ({
   items,
   editor,
+  handleAddRecentUsed,
 }: {
   items: GroupColors[];
   editor: Editor;
+  handleAddRecentUsed: (color: Color) => void;
 }) => {
   return (
     <PopoverContent
       onOpenAutoFocus={(e) => e.preventDefault()}
-      className="w-46 rounded-2xl p-0 pr-0.5 bg-card z-50"
+      className="w-47 rounded-2xl p-0 pr-px bg-popover shadow-2xl  z-50 overflow-hidden"
     >
-      <ScrollArea className="h-66.25 p-1.5">
+      <ScrollArea className="h-66.25 p-1.5 pr-2.5">
         {items.map((item, idx) => (
           <div key={item.title}>
             <div className="min-w-max flex relative flex-col justify-center align-middle">
-              <div className="capitalize pt-3 pb-1 px-2 leading-normal font-semibold text-xs">
+              <div className="capitalize pt-3 pb-1 px-1.5 leading-normal font-medium text-xs text-muted-foreground">
                 {item.title}
               </div>
-              <div className="grid grid-cols-5 gap-0.5">
+              <div className="grid grid-cols-5 gap-0.5 pl-1">
                 {item.colors.map((color) =>
                   color.type === "text" ? (
                     <TextButton
                       editor={editor}
                       color={color.value}
                       tooltip={`${color.name} ${color.type}`}
-                      onClick={() =>
+                      onClick={() => {
                         editor
                           .chain()
                           .focus()
                           .setColor(`var(--tt-color-text-${color.value})`)
-                          .run()
-                      }
+                          .run();
+                        handleAddRecentUsed(color);
+                      }}
                     />
                   ) : color.type === "background" ? (
                     <HighlightButton
                       editor={editor}
                       color={color}
                       tooltip={`${color.name} ${color.type}`}
-                      onClick={() =>
+                      onClick={() => {
                         editor
                           .chain()
                           .focus()
                           .toggleHighlight({
                             color: `var(--tt-color-highlight-${color.value})`,
                           })
-                          .run()
-                      }
+                          .run();
+                        handleAddRecentUsed(color);
+                      }}
                     />
                   ) : (
                     ""

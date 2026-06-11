@@ -1,13 +1,10 @@
-import { Editor, posToDOMRect, Range } from "@tiptap/core";
+import { Editor, posToDOMRect } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
 import { SuggestionOptions } from "@tiptap/suggestion";
 import { computePosition, flip, shift } from "@floating-ui/react"
 import CommandList from "./command-list";
 import {
     blockquote,
-    clearLine,
-    footer,
-    hardBreak,
     heading1,
     heading2,
     heading3,
