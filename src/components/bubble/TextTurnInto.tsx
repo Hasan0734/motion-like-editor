@@ -71,31 +71,52 @@ const headings: Headings[] = [
 
 const TextTurnInto = ({ editor }: { editor: Editor }) => {
   const {
+    activeBlock,
     isParagraph,
     isBulletList,
     isOrderedList,
     isTaskList,
     isBlockquote,
     isCodeBlock,
+    headingLevel,
   } = useEditorState({
     editor,
-    selector: (ctx) => ({
-      isParagraph: ctx.editor.isActive("paragraph"),
-      isBulletList: ctx.editor.isActive("bulletList"),
-      isOrderedList: ctx.editor.isActive("orderedList"),
-      isTaskList: ctx.editor.isActive("taskList"),
-      isBlockquote: ctx.editor.isActive("Blockquote"),
-      isCodeBlock: ctx.editor.isActive("codeBlock"),
-    }),
+    selector: (ctx) => {
+      const activeHeading = headings.find((h) =>
+        ctx.editor.isActive("heading", { level: h.level }),
+      );
+      return {
+        activeBlock: ctx.editor.getAttributes("paragraph"),
+        isParagraph: ctx.editor.isActive("paragraph"),
+        isBulletList: ctx.editor.isActive("bulletList"),
+        isOrderedList: ctx.editor.isActive("orderedList"),
+        isTaskList: ctx.editor.isActive("taskList"),
+        isBlockquote: ctx.editor.isActive("Blockquote"),
+        isCodeBlock: ctx.editor.isActive("codeBlock"),
+        headingLevel: activeHeading ? activeHeading.title : null,
+      };
+    },
   });
+
+  const getTriggerLabel = () => {
+    if (isParagraph) return "Text";
+    if (headingLevel) return headingLevel;
+    if (isBulletList) return "Bulleted list";
+    if (isOrderedList) return "Numbered list";
+    if (isTaskList) return "To-do list";
+    if (isBlockquote) return "Blockquote";
+    if (isCodeBlock) return "Code block";
+    return "Text";
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant={"ghost"}>
-          Block <ChevronDown />
+          {getTriggerLabel()} <ChevronDown />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-47 rounded-2xl p-0 pr-px bg-popover shadow-2xl  z-50 overflow-hidden">
+      <PopoverContent className="w-40 rounded-2xl p-0 pr-px bg-popover shadow-2xl  z-50 overflow-hidden">
         <ScrollArea className="h-66.25 p-1.5 pr-2.5">
           {items.map((item, idx) => (
             <div key={item.title}>
@@ -115,7 +136,6 @@ const TextTurnInto = ({ editor }: { editor: Editor }) => {
                     <Heading head={head} editor={editor} />
                   ))}
                   <Button
-                  
                     variant={isBulletList ? "secondary" : "ghost"}
                     className="w-full justify-start"
                     onClick={() =>
@@ -125,7 +145,6 @@ const TextTurnInto = ({ editor }: { editor: Editor }) => {
                     <List /> Bulleted list
                   </Button>
                   <Button
-                    
                     variant={isOrderedList ? "secondary" : "ghost"}
                     className="w-full justify-start"
                     onClick={() =>
@@ -135,7 +154,6 @@ const TextTurnInto = ({ editor }: { editor: Editor }) => {
                     <ListOrdered /> Numbered list
                   </Button>
                   <Button
-                 
                     variant={isTaskList ? "secondary" : "ghost"}
                     className="w-full justify-start"
                     onClick={() =>
@@ -159,7 +177,9 @@ const TextTurnInto = ({ editor }: { editor: Editor }) => {
                     disabled={isTaskList}
                     variant={isCodeBlock ? "secondary" : "ghost"}
                     className="w-full justify-start"
-                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                    onClick={() =>
+                      editor.chain().focus().toggleCodeBlock().run()
+                    }
                   >
                     <CodeXmlIcon /> Code block
                   </Button>
