@@ -30,7 +30,7 @@ import { Superscript } from "@tiptap/extension-superscript"
 import { TextAlign } from "@tiptap/extension-text-align"
 import { UndoRedo } from '@tiptap/extensions'
 import { Indent } from './Indent';
-
+import emojiSuggestion from './emoji-picker/emoji-suggestion';
 
 type ExtensionProps = {
     extensions?: AnyExtension[];
@@ -119,6 +119,9 @@ export function extensions(props: ExtensionProps) {
         Emoji.configure({
             emojis: gitHubEmojis,
             enableEmoticons: true,
+            
+            suggestion: emojiSuggestion,
+            
         }),
         HorizontalRule.configure({
             HTMLAttributes: {

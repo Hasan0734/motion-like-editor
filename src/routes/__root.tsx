@@ -9,6 +9,7 @@ import appCss from "~/styles/app.css?url";
 import colors from "~/styles/colors.css?url";
 import prosemirror from "~/styles/prosemirror.css?url";
 import { TooltipProvider } from "~/components/ui/tooltip";
+import { Analytics } from "@vercel/analytics/react";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -65,6 +66,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="">
+        <Analytics />
         <ThemeProvider defaultTheme="system" storageKey="theme">
           <TooltipProvider>{children}</TooltipProvider>
         </ThemeProvider>

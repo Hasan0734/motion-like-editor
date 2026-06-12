@@ -7,7 +7,7 @@ import MyBubbleMenu from "./bubble/MyBubbleMenu";
 
 const Editor = () => {
   const editor = useEditor({
-    enableContentCheck: false,
+
     immediatelyRender: false,
     extensions: defaultExtensions({
       extensions: [],
@@ -103,16 +103,19 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
+          "prose dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });
 
   return (
     <div className="container w-full mx-auto relative bg-card  shadow-xl rounded-2xl notion-like-editor-wrapper">
-      <EditorNav editor={editor}/>
+      <EditorNav editor={editor} />
       <div className=" h-170 editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary notion-like-editor-layout">
-        <EditorContent className="notion-like-editor-content" editor={editor} />
+        <EditorContent
+          className="notion-like-editor-content"
+          editor={editor}
+        />
         <Dragable editor={editor} />
         <TocSidebar editor={editor} />
         <MyBubbleMenu editor={editor} />
