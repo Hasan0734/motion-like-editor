@@ -39,7 +39,7 @@ const ToggleButton = ({
   const Icon = icon;
 
   return (
-    <TooltipWraper title={tooltip} showTooltip={showTooltip}>
+    <TooltipWraper content={tooltip} showTooltip={showTooltip}>
       <Button
         size={size ? size : text ? "default" : "icon"}
         variant={isActive ? "secondary" : "ghost"}

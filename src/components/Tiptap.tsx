@@ -1,6 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import { extensions as defaultExtensions } from "./extensions";
-import Dragable from "./extensions/drag";
+import Dragable from "./Dragable";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 

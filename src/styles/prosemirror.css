@@ -143,6 +143,7 @@ mark[style] > strong {
   color: inherit;
 }
 
+
 .tiptap.ProseMirror ul[data-type="taskList"] {
   padding-left: 0.25em;
 }
@@ -186,14 +187,12 @@ mark[style] > strong {
 
 .tiptap.ProseMirror ul[data-type="taskList"] li label span {
   border: 1px solid var(--color-border);
-  border-radius: 0.25rem;
+  border-radius:  0.25rem;
   cursor: pointer;
   background-color: var(--color-input);
   width: 1em;
   height: 1em;
-  transition:
-    background-color 80ms ease-out,
-    border-color 80ms ease-out;
+  transition: background-color 80ms ease-out, border-color 80ms ease-out;
   display: block;
   position: relative;
 }
@@ -238,27 +237,13 @@ mark[style] > strong {
   min-width: 0;
 }
 
+
 .tiptap.ProseMirror {
-  --tt-indent-unit: 24px;
+    --tt-indent-unit: 24px
 }
 
 .tiptap.ProseMirror [data-indent] {
-  margin-left: calc(var(--tt-indent-unit) * var(--tt-indent-level, 0));
-  transition: margin-left 0.2s ease-in-out;
+    margin-left: calc(var(--tt-indent-unit)*var(--tt-indent-level,0));
+    transition: margin-left .2s ease-in-out
 }
 
-.ProseMirror-selectednode,
-.ProseMirror-selectednoderange {
-  position: relative;
-}
-
-.ProseMirror-selectednode::before,
-.ProseMirror-selectednoderange::before {
-  content: "";
-  position: absolute;
-  inset: -0.25rem;
-  background-color: rgba(112, 207, 248, 0.3);
-  border-radius: 0.2rem;
-  pointer-events: none;
-  z-index: -1;
-}

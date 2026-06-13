@@ -42,7 +42,7 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       className="bg-card not-prose border shadow-xl rounded-xl px-1 flex items-center gap-1 py-1"
     >
       <div>
-        <TooltipWraper title="Improve">
+        <TooltipWraper content="Improve">
           <Button variant={"ghost"}>
             <Sparkles /> Improve
           </Button>

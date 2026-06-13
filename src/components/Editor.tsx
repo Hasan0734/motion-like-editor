@@ -1,10 +1,10 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import EditorNav from "./EditorNav";
 import { extensions as defaultExtensions } from "./extensions";
-import Dragable from "./extensions/drag";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 import { ScrollArea } from "./ui/scroll-area";
+import Dragable from "./Dragable";
 
 const Editor = () => {
   const editor = useEditor({

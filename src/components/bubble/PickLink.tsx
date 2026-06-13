@@ -62,7 +62,7 @@ const PickLink = ({ editor }: { editor: Editor }) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <TooltipWraper title="Link">
+      <TooltipWraper content="Link">
         <PopoverTrigger asChild>
           <Button variant={isLink ? "secondary" : "ghost"} size={"icon"}>
             <Link className={cn(isLink && "text-blue-500")} />

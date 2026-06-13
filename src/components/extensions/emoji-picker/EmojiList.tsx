@@ -14,7 +14,7 @@ const EmojiList = ({ items, onSelectIndex }: EmojiListProps) => {
       {items.map((emoji, idx) => {
 
         return (
-          <TooltipWraper title={emoji.name}>
+          <TooltipWraper content={emoji.name}>
             <Button
               variant={"secondary"}
               key={emoji.name}

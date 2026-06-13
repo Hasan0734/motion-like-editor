@@ -3,17 +3,23 @@ import React from "react";
 
 interface PropsType {
   children: React.ReactNode;
-  title: string | undefined;
+  content: string | undefined;
   showTooltip?: boolean;
+  className?: string;
 }
 
-const TooltipWraper = ({ children, title, showTooltip = true }: PropsType) => {
+const TooltipWraper = ({
+  children,
+  content,
+  className,
+  showTooltip = true,
+}: PropsType) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      {showTooltip && title && (
-        <TooltipContent>
-          <p>{title}</p>
+      {showTooltip && content && (
+        <TooltipContent className={className}>
+          <p>{content}</p>
         </TooltipContent>
       )}
     </Tooltip>

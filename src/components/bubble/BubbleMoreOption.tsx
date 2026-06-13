@@ -41,7 +41,7 @@ const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <TooltipWraper title="More options">
+      <TooltipWraper content="More options">
         <PopoverTrigger asChild>
           <Button variant={"ghost"} size={"icon"}>
             <EllipsisVertical />
@@ -106,7 +106,6 @@ const BubbleMoreOption = ({ editor }: { editor: Editor }) => {
           </div>
           <Separator orientation="vertical" />
           <IndentButtons editor={editor} />
-        
         </div>
       </PopoverContent>
     </Popover>
