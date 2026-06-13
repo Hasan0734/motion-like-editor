@@ -30,7 +30,7 @@ const EmojiPicker = forwardRef<unknown, EmojiListProps>((props, ref) => {
   useEffect(() => setSelectedIndex(0), [props.items]);
 
   return (
-    <div className="w-53 min-h-10 max-h-65 p-1.5 scrollbar-none overflow-y-scroll bg-card rounded-xl border shadow-2xl">
+    <div className=" p-1.5 scrollbar-none overflow-y-scroll bg-card rounded-xl border shadow-2xl min-h-10">
       {items.length > 0 ? (
         <EmojiList
           items={items}
@@ -38,7 +38,7 @@ const EmojiPicker = forwardRef<unknown, EmojiListProps>((props, ref) => {
           onSelectIndex={selectItem}
         />
       ) : (
-        <div className="p-1 text-sm text-muted-foreground">No available</div>
+        <div className="p-1 text-sm text-muted-foreground ">No emoji found</div>
       )}
     </div>
   );

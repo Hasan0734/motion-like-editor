@@ -30,7 +30,7 @@ const EditorNav = ({ editor }: { editor: Editor | null }) => {
   });
 
   return (
-    <div className="flex items-center justify-end py-2 px-4 border-b border-border gap-2 z-100 relative bg-card">
+    <div className="fixed w-full  z-100 bg-background/10 top-0 backdrop-blur-2xl flex items-center justify-end py-2.5 px-4 border-b border-border gap-2 ">
       <div className="flex gap-1">
         <Button
           onClick={() => editor.chain().focus().undo().run()}

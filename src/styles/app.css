@@ -235,7 +235,7 @@
   padding-inline-start: 0;
   transition: opacity 0.2s;
   display: flex;
-  position: relative;
+  /* position: relative; */
 }
 
 .toc-sidebar-wrapper {
@@ -245,8 +245,10 @@
   margin-left: auto;
   transition: opacity 0.2s;
   display: flex;
-  position: sticky;
-  top: 130px;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(0%, -50%);
 }
 
 .toc-sidebar-inner {
@@ -318,8 +320,8 @@
 }
 
 .toc-sidebar-popover {
-  width: 250px;
-  max-height: 24rem;
+  /* width: 250px; */
+  /* max-height: 24rem; */
   flex-grow: 1;
   margin-right: -0.625rem;
   scroll-margin: 0.25rem;

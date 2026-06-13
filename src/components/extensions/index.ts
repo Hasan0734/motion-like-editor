@@ -108,9 +108,9 @@ export function extensions(props: ExtensionProps) {
         //     }
         // }),
         Gapcursor,
-        Dropcursor.configure({
-            class: "transition-all duration-300 ease-out"
-        }),
+        // Dropcursor.configure({
+        //     class: "transition-all duration-300 ease-out"
+        // }),
         TableKit.configure({
             table: { resizable: true },
         }),

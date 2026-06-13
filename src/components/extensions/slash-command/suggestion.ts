@@ -30,7 +30,12 @@ const updatePosition = (editor: Editor, element: HTMLElement) => {
 
 export default <Omit<SuggestionOptions, 'editor'>>{
     items: ({ query }) => {
-        return blockItems
+
+
+        const filtered = blockItems.filter((item) => item.commands.filter((com) => com.searchTerms.includes(query.toLowerCase())));
+        
+        console.log(filtered)
+        return filtered;
     },
     allow: ({ editor }) => {
         const isInsideHTMLCodeBlock = editor.isActive('htmlCodeBlock');
@@ -70,7 +75,6 @@ export default <Omit<SuggestionOptions, 'editor'>>{
             },
             onUpdate(props) {
                 component.updateProps(props)
-                console.log(props)
 
                 if (!props.clientRect) {
                     return

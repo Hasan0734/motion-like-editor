@@ -8,7 +8,6 @@ import Dragable from "./Dragable";
 
 const Editor = () => {
   const editor = useEditor({
-
     immediatelyRender: false,
     extensions: defaultExtensions({
       extensions: [],
@@ -110,13 +109,10 @@ const Editor = () => {
   });
 
   return (
-    <div className="container w-full mx-auto relative bg-card overflow-hidden border  shadow-xl rounded-2xl notion-like-editor-wrapper">
+    <div className=" w-full mx-auto relative overflow-hidden notion-like-editor-wrapper">
       <EditorNav editor={editor} />
-      <div className=" h-150 editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary notion-like-editor-layout">
-        <EditorContent
-          className="notion-like-editor-content"
-          editor={editor}
-        />
+      <div className="mt-10  notion-like-editor-layout">
+        <EditorContent className="notion-like-editor-content" editor={editor} />
         <Dragable editor={editor} />
         <TocSidebar editor={editor} />
         <MyBubbleMenu editor={editor} />
@@ -126,3 +122,6 @@ const Editor = () => {
 };
 
 export default Editor;
+
+
+// editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary
