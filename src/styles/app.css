@@ -245,10 +245,10 @@
   margin-left: auto;
   transition: opacity 0.2s;
   display: flex;
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translate(0%, -50%);
+  /* position: fixed; */
+  /* top: 50%; */
+  /* right: 0; */
+  /* transform: translate(0%, -50%); */
 }
 
 .toc-sidebar-inner {

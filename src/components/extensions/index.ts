@@ -110,14 +110,7 @@ export function extensions(props: ExtensionProps) {
             getId: () => uuidv4()
 
         }),
-        // TocNode.configure({
-        //     topOffset: 0,
-        //     maxShowCount: 20,
-        //     showTitle: true,
-        //     HTMLAttributes: {
-        //         class: 'my-custom-toc'
-        //     }
-        // }),
+
         Gapcursor,
         Dropcursor.configure({
             class: "transition-all duration-300 ease-out"

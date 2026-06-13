@@ -1,11 +1,13 @@
 import React from "react";
 import { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
+import { cn } from "~/lib/utils";
 
 interface TocUIListProps {
   items: TableOfContentDataItem[];
+  scrollOver: boolean;
 }
 
-export const TocUIList: React.FC<TocUIListProps> = ({ items }) => {
+export const TocUIList: React.FC<TocUIListProps> = ({ items, scrollOver }) => {
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -27,7 +29,11 @@ export const TocUIList: React.FC<TocUIListProps> = ({ items }) => {
         <div
           onClick={() => handleScroll(item.id)}
           key={item.id}
-          className={`toc-sidebar-progress-line ${item.isActive || item.isScrolledOver ? "toc-sidebar-progress-line-active" : ""}`}
+          className={cn(`toc-sidebar-progress-line`, {
+            "toc-sidebar-progress-line-active": scrollOver
+              ? item.isScrolledOver
+              : item.isActive,
+          })}
           style={{ "--toc-depth": item.level } as React.CSSProperties}
         ></div>
       ))}

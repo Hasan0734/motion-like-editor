@@ -1,9 +1,8 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import EditorNav from "./EditorNav";
 import { extensions as defaultExtensions } from "./extensions";
-import { TocSidebar } from "./extensions/toc-node/TocSidebar";
+import { TocSidebar } from "./toc-sidebar/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
-import { ScrollArea } from "./ui/scroll-area";
 import Dragable from "./Dragable";
 
 const Editor = () => {
@@ -109,12 +108,12 @@ const Editor = () => {
   });
 
   return (
-    <div className=" w-full mx-auto relative overflow-hidden notion-like-editor-wrapper">
+    <div className=" w-full mx-auto relative  notion-like-editor-wrapper">
       <EditorNav editor={editor} />
       <div className="mt-10  notion-like-editor-layout">
         <EditorContent className="notion-like-editor-content" editor={editor} />
         <Dragable editor={editor} />
-        <TocSidebar editor={editor} />
+        <TocSidebar editor={editor} variant="content" scrollOver={true}/>
         <MyBubbleMenu editor={editor} />
       </div>
     </div>
@@ -122,6 +121,5 @@ const Editor = () => {
 };
 
 export default Editor;
-
 
 // editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary
