@@ -103,7 +103,7 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "prose relative dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
+          "prose relative dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-popover prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });

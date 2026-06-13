@@ -10,7 +10,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { TableOfContents } from '@tiptap/extension-table-of-contents'
 import { TableKit } from '@tiptap/extension-table'
-import { Gapcursor,Dropcursor } from '@tiptap/extensions'
+import { Gapcursor, Dropcursor } from '@tiptap/extensions'
 
 import { Document } from '@tiptap/extension-document'
 import { Mention } from '@tiptap/extension-mention'
@@ -32,6 +32,17 @@ import { TextAlign } from "@tiptap/extension-text-align"
 import { UndoRedo } from '@tiptap/extensions'
 import { Indent } from './Indent';
 import emojiSuggestion from './emoji-picker/emoji-suggestion';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+
+
+import { all, createLowlight } from 'lowlight'
+import React from 'react'
+// import css from 'highlight.js/lib/languages/css'
+
+// create a lowlight instance with all languages loaded
+const lowlight = createLowlight(all)
+
+// lowlight.register('css', css)
 
 type ExtensionProps = {
     extensions?: AnyExtension[];
@@ -108,9 +119,9 @@ export function extensions(props: ExtensionProps) {
         //     }
         // }),
         Gapcursor,
-        // Dropcursor.configure({
-        //     class: "transition-all duration-300 ease-out"
-        // }),
+        Dropcursor.configure({
+            class: "transition-all duration-300 ease-out"
+        }),
         TableKit.configure({
             table: { resizable: true },
         }),
@@ -123,9 +134,9 @@ export function extensions(props: ExtensionProps) {
         Emoji.configure({
             emojis: gitHubEmojis,
             enableEmoticons: true,
-            
+
             suggestion: emojiSuggestion,
-            
+
         }),
         HorizontalRule.configure({
             HTMLAttributes: {
@@ -136,7 +147,9 @@ export function extensions(props: ExtensionProps) {
             types: ['paragraph', 'heading'],
             indentSize: 24,
         }),
-
+        CodeBlockLowlight.configure({
+            lowlight,
+        }),
     ]
 
     return [

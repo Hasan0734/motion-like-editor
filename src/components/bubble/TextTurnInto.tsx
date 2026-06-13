@@ -116,7 +116,7 @@ const TextTurnInto = ({ editor }: { editor: Editor }) => {
           {getTriggerLabel()} <ChevronDown />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-40 rounded-2xl p-0 pr-px bg-popover shadow-2xl  z-50 overflow-hidden">
+      <PopoverContent className="w-48 rounded-2xl p-0 pr-px bg-popover shadow-2xl  z-50 overflow-hidden">
         <ScrollArea className="h-66.25 p-1.5 pr-2.5">
           {items.map((item, idx) => (
             <div key={item.title}>
