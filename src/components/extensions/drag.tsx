@@ -10,7 +10,7 @@ const Dragable = ({ editor }: { editor: Editor | null }) => {
   }
   return (
     <DragHandle
-    className="drag-handle"
+      className="drag-handle"
       editor={editor}
       nested={false}
       computePositionConfig={{
@@ -18,8 +18,12 @@ const Dragable = ({ editor }: { editor: Editor | null }) => {
         strategy: "absolute",
       }}
       onElementDragStart={(e: DragEvent) => {
-        console.log(e)
+        console.log(e);
         // do something when dragging starts
+      }}
+      onNodeChange={({ node, editor, pos }) => {
+        console.log(node);
+        // do something with the node
       }}
     >
       <div className="flex items-center gap-1 mr-2  ">

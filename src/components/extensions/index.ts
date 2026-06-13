@@ -10,7 +10,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { TableOfContents } from '@tiptap/extension-table-of-contents'
 import { TableKit } from '@tiptap/extension-table'
-import { Gapcursor } from '@tiptap/extensions'
+import { Gapcursor,Dropcursor } from '@tiptap/extensions'
+
 import { Document } from '@tiptap/extension-document'
 import { Mention } from '@tiptap/extension-mention'
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
@@ -107,6 +108,9 @@ export function extensions(props: ExtensionProps) {
         //     }
         // }),
         Gapcursor,
+        Dropcursor.configure({
+            class: "transition-all duration-300 ease-out"
+        }),
         TableKit.configure({
             table: { resizable: true },
         }),
