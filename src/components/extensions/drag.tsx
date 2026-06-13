@@ -4,21 +4,22 @@ import { Button } from "../ui/button";
 import { Editor } from "@tiptap/core";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
-const Dragable = ({
-  editor,
-}: {
-  editor: Editor | null;
-}) => {
+const Dragable = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
     return;
   }
   return (
     <DragHandle
+    className="drag-handle"
       editor={editor}
       nested={false}
       computePositionConfig={{
         placement: "left-start",
         strategy: "absolute",
+      }}
+      onElementDragStart={(e: DragEvent) => {
+        console.log(e)
+        // do something when dragging starts
       }}
     >
       <div className="flex items-center gap-1 mr-2  ">

@@ -55,7 +55,7 @@
 
 .ProseMirror:not(.dragging) .ProseMirror-selectednode {
   outline: none !important;
-  background-color: var(--novel-highlight-blue);
+  background-color: var(--color-border);
   transition: background-color 0.2s;
   box-shadow: none;
 }

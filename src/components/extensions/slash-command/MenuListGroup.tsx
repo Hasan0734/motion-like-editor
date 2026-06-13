@@ -4,6 +4,8 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { ScrollArea } from "../../ui/scroll-area";
 
 import { Button } from "~/components/ui/button";
+import { CommandGroup, CommandItem } from "~/components/ui/command";
+import { CalendarIcon } from "lucide-react";
 
 interface CommandListItemsProps {
   groups: BlockGroupItem[];
@@ -26,33 +28,46 @@ export const MenuListGroup = ({
         const groupStartOffset = absoluteIndexOffset;
         absoluteIndexOffset += currentGroupCommands.length;
         return (
-          <div className="space-y-2" key={blockGroupItem.title || i}>
-            <div className="px-1 text-xs">{blockGroupItem.title}</div>
-             <div>
-               {currentGroupCommands.map((block, relativeIndex) => {
-                const itemIndex = groupStartOffset + relativeIndex;
-                const isSelected = itemIndex === selectedIndex;
-                return (
-                  <Button
-                    key={block.title}
-                    variant={"ghost"}
-                    className="w-full justify-start pl-1.5"
-                    onClick={() => onSelectIndex(itemIndex)}
-                  >
-                    {block.icon}
-                    {block.title}
-                  </Button>
-                );
-              })}
-             </div>
-          </div>
+          <CommandGroup heading={blockGroupItem.title}>
+            {currentGroupCommands.map((block, relativeIndex) => {
+              const itemIndex = groupStartOffset + relativeIndex;
+              const isSelected = itemIndex === selectedIndex;
+              return (
+                <CommandItem
+                  key={block.title}
+                  onSelect={() => onSelectIndex(itemIndex)}
+                >
+                  {block.icon}
+                  <span>{block.title}</span>
+                </CommandItem>
+              );
+            })}
+          </CommandGroup>
+          // <div className="space-y-2" key={blockGroupItem.title || i}>
+          //   <div className="px-1 text-xs">{blockGroupItem.title}</div>
+          //    <div>
+          //      {currentGroupCommands.map((block, relativeIndex) => {
+          //       const itemIndex = groupStartOffset + relativeIndex;
+          //       const isSelected = itemIndex === selectedIndex;
+          //       return (
+          //         <Button
+          //           key={block.title}
+          //           variant={"ghost"}
+          //           className="w-full justify-start pl-1.5"
+          //           onClick={() => onSelectIndex(itemIndex)}
+          //         >
+          //           {block.icon}
+          //           {block.title}
+          //         </Button>
+          //       );
+          //     })}
+          //    </div>
+          // </div>
         );
       })}
     </div>
   );
 };
-
-
 
 // export const CommandListItems = ({
 //   groups,

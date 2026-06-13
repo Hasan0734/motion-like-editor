@@ -3,6 +3,8 @@ import { BlockGroupItem, BlockItem } from "../../blocks/types";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { ScrollArea } from "../../ui/scroll-area";
 import { MenuListGroup } from "./MenuListGroup";
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "~/components/ui/command";
+import { CalculatorIcon, CalendarIcon, CreditCardIcon, SettingsIcon, SmileIcon, UserIcon } from "lucide-react";
 
 type CommandListProps = {
   items: BlockGroupItem[];
@@ -14,8 +16,8 @@ type CommandListProps = {
 
 const SlashMenu = forwardRef<unknown, CommandListProps>((props, ref) => {
   const { items: groups, command, editor, range, query } = props;
-  const [isOpen, setIsOpen] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  
 
   const flatCommands = groups.flatMap((group) => group.commands);
 
@@ -29,25 +31,26 @@ const SlashMenu = forwardRef<unknown, CommandListProps>((props, ref) => {
       command(item);
     }
   };
-  useImperativeHandle(ref, () => {
-    return {
-      onKeyDown: (x: any) => {
-        console.log(x);
-      },
-    };
-  });
+
+
 
   return (
-    <div className=" w-55 rounded-2xl p-0 pr-0.5 bg-card border transition-all duration-150 ease-out shadow-xl">
-      <ScrollArea className="h-80 pr-3! p-2 space-y-2">
-        <MenuListGroup
-          groups={groups}
-          selectedIndex={selectedIndex}
-          onSelectIndex={selectItem}
-          flatCommands={flatCommands}
-        />
-      </ScrollArea>
-    </div>
+      <Command className="border shadow-2xl w-55" >
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <MenuListGroup flatCommands={flatCommands} groups={groups} selectedIndex={selectedIndex} onSelectIndex={selectItem}/>
+        </CommandList>
+      </Command>
+    // <div className=" w-55 rounded-2xl p-0 pr-0.5 bg-card border transition-all duration-150 ease-out shadow-xl">
+    //   <ScrollArea className="h-80 pr-3! p-2 space-y-2">
+    //     <MenuListGroup
+    //       groups={groups}
+    //       selectedIndex={selectedIndex}
+    //       onSelectIndex={selectItem}
+    //       flatCommands={flatCommands}
+    //     />
+    //   </ScrollArea>
+    // </div>
   );
 });
 
