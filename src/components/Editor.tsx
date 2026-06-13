@@ -4,6 +4,7 @@ import { extensions as defaultExtensions } from "./extensions";
 import Dragable from "./extensions/drag";
 import { TocSidebar } from "./extensions/toc-node/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
+import { ScrollArea } from "./ui/scroll-area";
 
 const Editor = () => {
   const editor = useEditor({
@@ -103,15 +104,15 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
+          "prose relative dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-accent prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });
 
   return (
-    <div className="container w-full mx-auto relative bg-card  shadow-xl rounded-2xl notion-like-editor-wrapper">
+    <div className="container w-full mx-auto relative bg-card overflow-hidden border  shadow-xl rounded-2xl notion-like-editor-wrapper">
       <EditorNav editor={editor} />
-      <div className=" h-170 editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary notion-like-editor-layout">
+      <div className=" h-150 editor-scroll-container overflow-y-scroll scrollbar-none scrollbar-thumb-secondary notion-like-editor-layout">
         <EditorContent
           className="notion-like-editor-content"
           editor={editor}

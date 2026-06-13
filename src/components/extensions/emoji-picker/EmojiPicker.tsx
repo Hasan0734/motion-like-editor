@@ -1,11 +1,7 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import { forwardRef, useEffect, useState } from "react";
 import EmojiList from "./EmojiList";
-import { EmojiItem, EmojiOptions } from "@tiptap/extension-emoji";
-import { Command, Editor } from "@tiptap/core";
+import { EmojiItem } from "@tiptap/extension-emoji";
+import { Editor } from "@tiptap/core";
 
 type CommandProps = {
   name: string;
@@ -20,8 +16,7 @@ type EmojiListProps = {
 };
 
 const EmojiPicker = forwardRef<unknown, EmojiListProps>((props, ref) => {
-  const { items, command, editor, range, query } = props;
-  const [isOpen, setIsOpen] = useState(true);
+  const { items } = props;
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index: number) => {
@@ -35,14 +30,17 @@ const EmojiPicker = forwardRef<unknown, EmojiListProps>((props, ref) => {
   useEffect(() => setSelectedIndex(0), [props.items]);
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="sr-only"></DropdownMenuTrigger>
-      <EmojiList
-        items={items}
-        selectedIndex={selectedIndex}
-        onSelectIndex={selectItem}
-      />
-    </DropdownMenu>
+    <div className="w-53 min-h-10 max-h-65 p-1.5 scrollbar-none overflow-y-scroll bg-card rounded-xl border shadow-2xl">
+      {items.length > 0 ? (
+        <EmojiList
+          items={items}
+          selectedIndex={selectedIndex}
+          onSelectIndex={selectItem}
+        />
+      ) : (
+        <div className="p-1 text-sm text-muted-foreground">No available</div>
+      )}
+    </div>
   );
 });
 

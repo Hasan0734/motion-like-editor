@@ -2,8 +2,8 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import { AnyExtension } from "@tiptap/core";
 import { baseKit } from "./base-kit";
 import { BlockGroupItem } from "../blocks/types";
-import { SlashCommand } from "./slash-command";
-import suggestion from "./suggestion";
+import { SlashCommand } from "./slash-command/slash-command";
+import suggestion from "./slash-command/suggestion";
 import { ListKit } from '@tiptap/extension-list'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'

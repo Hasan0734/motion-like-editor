@@ -1,8 +1,12 @@
+import { Editor, posToDOMRect } from "@tiptap/core";
+import { ReactRenderer } from "@tiptap/react";
+import { SuggestionOptions } from "@tiptap/suggestion";
 import { autoUpdate, computePosition, flip, shift } from "@floating-ui/react"
-import { Editor, posToDOMRect } from "@tiptap/core"
-import { ReactRenderer } from "@tiptap/react"
-import { SuggestionOptions } from "@tiptap/suggestion"
-import ListOfEmoji from "./EmojiPicker"
+
+
+import { blockItems } from "./items";
+import SlashMenu from "./SlashMenu";
+
 
 const updatePosition = (editor: Editor, element: HTMLElement) => {
     const virtualElement = {
@@ -25,13 +29,8 @@ const updatePosition = (editor: Editor, element: HTMLElement) => {
 
 
 export default <Omit<SuggestionOptions, 'editor'>>{
-    items: ({ editor, query }) => {
-        return editor.storage.emoji.emojis.filter(({ shortcodes, tags }) => {
-            return (
-                shortcodes.find(shortcode => shortcode.startsWith(query.toLowerCase())) ||
-                tags.find(tag => tag.startsWith(query.toLowerCase()))
-            )
-        })
+    items: ({ query }) => {
+        return blockItems
     },
     allow: ({ editor }) => {
         const isInsideHTMLCodeBlock = editor.isActive('htmlCodeBlock');
@@ -46,28 +45,32 @@ export default <Omit<SuggestionOptions, 'editor'>>{
         let cleanup: (() => void) | undefined;
         return {
             onStart: (props) => {
-                component = new ReactRenderer(ListOfEmoji, {
+                component = new ReactRenderer(SlashMenu, {
                     props,
                     editor: props.editor,
+                    className: "not-prose"
+
                 });
+
                 if (!props.clientRect) {
-                    return
+                    return;
                 }
 
-                component.element.style.position = 'absolute'
+                component.element.style.position = 'absolute';
                 const contentBody = document.querySelector(".notion-like-editor-content");
                 contentBody?.appendChild(component.element)
-                // document.body.appendChild(component.element)
+                // document.body.appendChild(component.element);
 
                 const referenceElement = props.editor.view.dom;
                 const floatingElement = component.element;
-                cleanup = autoUpdate(referenceElement, floatingElement, () => {
-                    updatePosition(props.editor, component.element)
 
-                })
+                cleanup = autoUpdate(referenceElement, floatingElement, () => {
+                    updatePosition(props.editor, floatingElement);
+                });
             },
             onUpdate(props) {
                 component.updateProps(props)
+                console.log(props)
 
                 if (!props.clientRect) {
                     return
@@ -78,18 +81,19 @@ export default <Omit<SuggestionOptions, 'editor'>>{
 
             onKeyDown(props) {
                 if (props.event.key === 'Escape') {
-                    component.destroy()
-                    component.element.remove()
-
-                    return true
+                    cleanup?.();
+                    component.destroy();
+                    component.element.remove();
+                    return true;
                 }
 
                 return component.ref?.onKeyDown(props)
             },
 
             onExit() {
-                component.destroy()
-                component.element.remove()
+                cleanup?.();
+                component.destroy();
+                component.element.remove();
             },
         }
     }
