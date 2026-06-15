@@ -7,14 +7,17 @@ import { AlignCenter, AlignLeft, AlignRight, CaptionIcon } from "./icon";
 import { useEditorState } from "@tiptap/react";
 import { Dispatch, SetStateAction } from "react";
 
-const ImageBubbleMenu = ({ editor }: { editor: Editor | null }) => {
+interface ImageBubbleMenuProps {
+  editor: Editor | null;
+  onReplaceClick: () => void;
+}
+
+const ImageBubbleMenu = ({ editor, onReplaceClick }: ImageBubbleMenuProps) => {
   if (!editor) {
     return;
   }
 
   const { alignment } = editor.getAttributes("image");
-
-  // 2. Change Alignment Command
   const setAlignment = (nextAlignment: string) => {
     editor
       .chain()
@@ -23,15 +26,7 @@ const ImageBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       .run();
   };
 
-  const { isActive } = useEditorState({
-    editor,
-    selector: (ctx) => {
-      return { isActive: ctx.editor.isActive("image") };
-    },
-  });
 
-
-  
 
   return (
     <BubbleMenu
@@ -85,15 +80,14 @@ const ImageBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         <ToggleButton
           tooltip="Replace"
           icon={RefreshCcw}
-          //   isActive={isBold}
-          onClick={() => editor.chain().focus().toggleBold().run()}
+          onClick={onReplaceClick}
         />
         <ToggleButton
           variant="destructive"
           tooltip="Delete"
           icon={Trash2}
           //   isActive={isBold}
-          onClick={() => editor.chain().focus().toggleBold().run()}
+          onClick={() => editor.chain().focus().deleteSelection().run()}
         />
       </div>
     </BubbleMenu>

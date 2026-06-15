@@ -1,6 +1,6 @@
 import React, { CSSProperties, useCallback, useRef, useState } from "react";
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
-import ImageBubbleMenu from "../bubble/ImageBubbleMenu";
+import ImageBubbleMenu from "../../bubble/ImageBubbleMenu";
 import { useEvent } from "~/lib/use-event";
 import { getAspectRatio, getNewHeight } from "~/lib/aspect-ratio";
 
@@ -12,9 +12,11 @@ export default function ImageNodeView({
   node,
   editor,
   updateAttributes,
+  getPos,
 }: NodeViewProps) {
   const { src, alignment, width: nodeWidth, height: nodeHeight } = node.attrs;
   const [isHovered, setIsHovered] = useState(false);
+  const [isReplacing, setIsReplacing] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLImageElement>(null);
@@ -96,6 +98,24 @@ export default function ImageNodeView({
       window.addEventListener("mouseup", removeListeners, { capture: true });
     },
   );
+  const handleReplaceClick = () => {
+    const currentPosition = typeof getPos === "function" ? getPos() : null;
+    if (currentPosition === null || currentPosition == undefined) {
+      return;
+    }
+
+    editor
+      .chain()
+      .focus()
+      .deleteRange({
+        from: currentPosition,
+        to: currentPosition + node.nodeSize,
+      })
+      .insertContentAt(currentPosition, {
+        type: "imageUpload",
+      })
+      .run();
+  };
 
   return (
     <NodeViewWrapper
@@ -106,44 +126,48 @@ export default function ImageNodeView({
       data-width={nodeWidth}
       ref={wrapperRef}
     >
-      <ImageBubbleMenu editor={editor} />
-      <div
-        className="tiptap-image-container"
-        data-drag-handle
-        // style={{ width: finalWidth }}
-        ref={containerRef}
-      >
-        <div className="tiptap-image-content">
-          <img
-            ref={imgRef}
-            contentEditable={false}
-            draggable={false}
-            className="tiptap-image-img cursor-pointer"
-            src={src}
-            alt="example"
-          />
-          {isHovered && (
-            <>
-              <div
-                onMouseDown={handleMouseDown}
-                data-direction="-w"
-                className="tiptap-image-handle tiptap-image-handle-left"
-              ></div>
-              <div
-                onMouseDown={handleMouseDown}
-                data-direction="-e"
-                className="tiptap-image-handle tiptap-image-handle-right"
-              ></div>
-            </>
-          )}
-        </div>
-        {/* <NodeViewContent
+      <ImageBubbleMenu editor={editor} onReplaceClick={handleReplaceClick} />
+      {isReplacing ? (
+        <div>Replace me</div>
+      ) : (
+        <div
+          className="tiptap-image-container"
+          data-drag-handle
+          // style={{ width: finalWidth }}
+          ref={containerRef}
+        >
+          <div className="tiptap-image-content">
+            <img
+              ref={imgRef}
+              contentEditable={false}
+              draggable={false}
+              className="tiptap-image-img cursor-pointer"
+              src={src}
+              alt="example"
+            />
+            {isHovered && (
+              <>
+                <div
+                  onMouseDown={handleMouseDown}
+                  data-direction="-w"
+                  className="tiptap-image-handle tiptap-image-handle-left"
+                ></div>
+                <div
+                  onMouseDown={handleMouseDown}
+                  data-direction="-e"
+                  className="tiptap-image-handle tiptap-image-handle-right"
+                ></div>
+              </>
+            )}
+          </div>
+          {/* <NodeViewContent
           
           data-placeholder="Add a caption..."
           className={`tiptap-image-caption border bg-input`}
         >
         </NodeViewContent> */}
-      </div>
+        </div>
+      )}
     </NodeViewWrapper>
   );
 }

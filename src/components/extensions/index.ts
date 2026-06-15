@@ -39,7 +39,8 @@ import { TrailingNode } from '@tiptap/extensions'
 import { all, createLowlight } from 'lowlight'
 import React from 'react'
 import { FileHandlerExtenstion } from './file-handle';
-import { CustomImage } from '../node/CustomImage';
+import { CustomImage } from '../node/image/CustomImage';
+import { ImageUploadNode } from '../tiptap-node/image-upload-node';
 // import css from 'highlight.js/lib/languages/css'
 
 // create a lowlight instance with all languages loaded
@@ -58,6 +59,7 @@ export function extensions(props: ExtensionProps) {
     const defaultExtensions = [
         TrailingNode,
         CustomImage,
+        ImageUploadNode,
         Document,
         UndoRedo,
         Bold,
