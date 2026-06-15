@@ -1,12 +1,13 @@
 import { LucideIcon } from "lucide-react";
-import TooltipWraper from "./TooltipWraper";
+import TooltipWrapper from "./TooltipWrapper";
 import { Button } from "./ui/button";
 import { cn } from "~/lib/utils";
+import React from "react";
 
 interface ToggleButtonProps {
   onClick: () => void;
   isActive?: boolean;
-  icon: LucideIcon;
+  icon: LucideIcon | React.JSX.Element;
   className?: string;
   text?: string;
   showTooltip?: boolean;
@@ -23,6 +24,7 @@ interface ToggleButtonProps {
     | "icon-lg"
     | null
     | undefined;
+  [key: string]: any
 }
 
 const ToggleButton = ({
@@ -35,21 +37,34 @@ const ToggleButton = ({
   showTooltip,
   tooltip,
   disabled,
+  ...props
 }: ToggleButtonProps) => {
-  const Icon = icon;
+
+const renderIcon = () => {
+    if (React.isValidElement(icon)) {
+      return React.cloneElement(icon, {
+        // @ts-ignore - merging classNames safely depending on how your icons accept them
+        className: cn("stroke-[2.75]", icon.props && (icon.props as any).className)
+      });
+    }
+    
+    const IconComponent = icon as LucideIcon;
+    return <IconComponent className="stroke-[2.75]" />;
+  };
 
   return (
-    <TooltipWraper content={tooltip} showTooltip={showTooltip}>
+    <TooltipWrapper content={tooltip} showTooltip={showTooltip}>
       <Button
         size={size ? size : text ? "default" : "icon"}
         variant={isActive ? "secondary" : "ghost"}
-        className={cn( className)}
+        className={cn("",className)}
         onClick={onClick}
         disabled={disabled}
+        {...props}
       >
-        <Icon className="stroke-[2.75] "/> {text}
+        {renderIcon()} {text}
       </Button>
-    </TooltipWraper>
+    </TooltipWrapper>
   );
 };
 

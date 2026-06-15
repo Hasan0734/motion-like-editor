@@ -1,7 +1,7 @@
 import { CSSProperties, useState } from "react";
 
 import { ChevronDown } from "lucide-react";
-import TooltipWraper from "../TooltipWraper";
+import TooltipWraper from "../TooltipWrapper";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";

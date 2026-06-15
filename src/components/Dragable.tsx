@@ -2,7 +2,7 @@ import DragHandle from "@tiptap/extension-drag-handle-react";
 import { GripVertical, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Editor } from "@tiptap/core";
-import TooltipWraper from "./TooltipWraper";
+import TooltipWraper from "./TooltipWrapper";
 
 const Dragable = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {

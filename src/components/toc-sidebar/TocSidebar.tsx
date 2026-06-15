@@ -19,7 +19,7 @@ interface PropsType {
 export const TocSidebar = ({
   editor,
   variant = "content",
-  scrollOver = true,
+  scrollOver = false,
 }: PropsType) => {
   if (!editor) return null;
   const [activeId, setActiveId] = useState<string | null>(null);

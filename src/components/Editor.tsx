@@ -4,6 +4,7 @@ import { extensions as defaultExtensions } from "./extensions";
 import { TocSidebar } from "./toc-sidebar/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 import Dragable from "./Dragable";
+import ImageBubbleMenu from "./bubble/ImageBubbleMenu";
 
 const Editor = () => {
   const editor = useEditor({
@@ -13,6 +14,9 @@ const Editor = () => {
       blocks: [],
     }),
     content: `
+
+
+
     <h1>Text editor</h1>
     <br/>
     <p>A text editor is a type of computer program that edits plain text. Such programs are sometimes known as "notepad" software (e.g. Windows Notepad). Text editors are provided with operating systems and software development packages, and can be used to change files such as configuration files, documentation files and programming language source code.</p>
@@ -21,6 +25,9 @@ const Editor = () => {
     <br/>
     <p>There are important differences between plain text (created and edited by text editors) and rich text (such as that created by word processors or desktop publishing software).</p>
     <br/>
+
+        <img src="https://placehold.co/600x400" />
+    <img src="https://placehold.co/800x400" />
     <p>Plain text exclusively consists of character representation. Each character is represented by a fixed-length sequence of one, two, or four bytes, or as a variable-length sequence of one to four bytes, in accordance to specific character encoding conventions, such as ASCII, ISO/IEC 2022, Shift JIS, UTF-8, or UTF-16. These conventions define many printable characters, but also non-printing characters that control the flow of the text, such as space, line break, and page break. Plain text contains no other information about the text itself, not even the character encoding convention employed. Plain text is stored in text files, although text files do not exclusively store plain text. Since the early days of computers, plain text was (once by necessity and now by convention) generally displayed using a monospace font, such that horizontal alignment and columnar formatting were sometimes done using whitespace characters.</p>
     <br/>
     <p>Rich text, on the other hand, may contain metadata, character formatting data (e.g. typeface, size, weight and style), paragraph formatting data (e.g. indentation, alignment, letter and word distribution, and space between lines or other paragraphs), and page specification data (e.g. size, margin and reading direction). Rich text can be very complex. Rich text can be saved in binary format (e.g. DOC), text files adhering to a markup language (e.g. RTF or HTML), or in a hybrid form of both (e.g. Office Open XML).
@@ -113,8 +120,9 @@ const Editor = () => {
       <div className="mt-10  notion-like-editor-layout">
         <EditorContent className="notion-like-editor-content" editor={editor} />
         <Dragable editor={editor} />
-        <TocSidebar editor={editor} variant="content" scrollOver={true}/>
+        <TocSidebar editor={editor} variant="line" />
         <MyBubbleMenu editor={editor} />
+        {/* <ImageBubbleMenu editor={editor} /> */}
       </div>
     </div>
   );

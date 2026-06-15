@@ -33,10 +33,13 @@ import { UndoRedo } from '@tiptap/extensions'
 import { Indent } from './Indent';
 import emojiSuggestion from './emoji-picker/emoji-suggestion';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-
+import Image from '@tiptap/extension-image'
+import { TrailingNode } from '@tiptap/extensions'
 
 import { all, createLowlight } from 'lowlight'
 import React from 'react'
+import { FileHandlerExtenstion } from './file-handle';
+import { CustomImage } from '../node/CustomImage';
 // import css from 'highlight.js/lib/languages/css'
 
 // create a lowlight instance with all languages loaded
@@ -53,6 +56,8 @@ export function extensions(props: ExtensionProps) {
     const { blocks, extensions = [] } = props;
 
     const defaultExtensions = [
+        TrailingNode,
+        CustomImage,
         Document,
         UndoRedo,
         Bold,
@@ -143,6 +148,7 @@ export function extensions(props: ExtensionProps) {
         CodeBlockLowlight.configure({
             lowlight,
         }),
+        FileHandlerExtenstion,
     ]
 
     return [

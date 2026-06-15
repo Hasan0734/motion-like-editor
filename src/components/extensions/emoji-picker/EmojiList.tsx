@@ -1,6 +1,6 @@
 import { EmojiItem } from "@tiptap/extension-emoji";
 import { useMemo, useRef } from "react";
-import TooltipWraper from "~/components/TooltipWraper";
+import TooltipWraper from "~/components/TooltipWrapper";
 import { Button } from "~/components/ui/button";
 import { useVirtualizer } from "@tanstack/react-virtual";
 

@@ -28,7 +28,7 @@ const TocSidebarContent = ({
             ` flex items-center w-full px-3 py-1.5 text-left rounded-md  transition-all duration-200 ease-in-out group relative hover:bg-accent`,
             {
               "bg-accent text-muted-foreground!": !scrollOver &&  item.isActive,
-              "text-gray-500": item.isScrolledOver
+              "text-gray-500": scrollOver && item.isScrolledOver
             },
           )}
           style={{

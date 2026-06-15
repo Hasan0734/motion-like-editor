@@ -8,7 +8,7 @@ interface PropsType {
   className?: string;
 }
 
-const TooltipWraper = ({
+const TooltipWrapper = ({
   children,
   content,
   className,
@@ -26,4 +26,4 @@ const TooltipWraper = ({
   );
 };
 
-export default TooltipWraper;
+export default TooltipWrapper;

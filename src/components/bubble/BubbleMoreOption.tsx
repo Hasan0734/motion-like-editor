@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TooltipWraper from "../TooltipWraper";
+import TooltipWraper from "../TooltipWrapper";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import {

@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import TooltipWraper from "../TooltipWraper";
+import TooltipWraper from "../TooltipWrapper";
 import { Button } from "../ui/button";
 import { TextIcon } from "./icon";
 import { Editor } from "@tiptap/core";

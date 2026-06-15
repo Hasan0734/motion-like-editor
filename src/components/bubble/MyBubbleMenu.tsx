@@ -13,7 +13,7 @@ import ToggleButton from "../ToggleButton";
 import { useEditorState } from "@tiptap/react";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
-import TooltipWraper from "../TooltipWraper";
+import TooltipWrapper from "../TooltipWrapper";
 import PickLink from "./PickLink";
 import BubbleMoreOption from "./BubbleMoreOption";
 import ColorDropdown from "../color/ColorDropdown";
@@ -39,17 +39,24 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   return (
     <BubbleMenu
       editor={editor}
+      pluginKey="textMenu"
       className="bg-card not-prose border shadow-xl rounded-xl px-1 flex items-center gap-1 py-1"
+      shouldShow={({ editor, view, state, from, to }) => {
+        if (editor.isActive("image") || editor.isActive("image")) {
+          return false;
+        }
+        return view.hasFocus() && !state.selection.empty;
+      }}
     >
       <div>
-        <TooltipWraper content="Improve">
+        <TooltipWrapper content="Improve">
           <Button variant={"ghost"}>
             <Sparkles /> Improve
           </Button>
-        </TooltipWraper>
+        </TooltipWrapper>
       </div>
       <Separator orientation="vertical" />
-      <TextTurnInto editor={editor}/>
+      <TextTurnInto editor={editor} />
       <Separator orientation="vertical" />
       <div className=" flex items-center gap-1 ">
         <ToggleButton
