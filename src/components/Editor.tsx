@@ -1,10 +1,11 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import EditorNav from "./EditorNav";
 import { extensions as defaultExtensions } from "./extensions";
 import { TocSidebar } from "./toc-sidebar/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 import Dragable from "./Dragable";
 import ImageBubbleMenu from "./bubble/ImageBubbleMenu";
+import { TableHandle } from "./extensions/table-handle-extension";
 
 const Editor = () => {
   const editor = useEditor({
@@ -15,7 +16,63 @@ const Editor = () => {
     }),
     content: `
 
+ <h2>Table Node Demo</h2>
+      <p>
+        This demo shows the table functionality with all features enabled.
+      </p>
 
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              <p><strong>Name</strong></p>
+            </th>
+            <th>
+              <p><strong>Role</strong></p>
+            </th>
+            <th>
+              <p><strong>Department</strong></p>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <p>Alice Johnson</p>
+            </td>
+            <td>
+              <p>Senior Developer</p>
+            </td>
+            <td>
+              <p>Engineering</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Bob Smith</p>
+            </td>
+            <td>
+              <p>Product Manager</p>
+            </td>
+            <td>
+              <p>Product</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Carol White</p>
+            </td>
+            <td>
+              <p>UX Designer</p>
+            </td>
+            <td>
+              <p>Design</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        You can click inside the table to see the selection overlay and resize handles. Use the extend buttons to add more rows or columns.
+      </p>
 
     <h1>Text editor</h1>
     <br/>
@@ -109,22 +166,30 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "prose relative dark:prose-invert prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-popover prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
+          "prose relative dark:prose-invert prose-table: prose-hr:border-border prose-blockquote:border-l-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-pre:bg-popover prose-pre:border prose-pre:border-border prose-pre:text-muted-foreground marker:text-foreground prose-a:text-blue-600 prose-a:hover:text-blue-500 prose-headings:text-inherit focus:outline-none py-10",
       },
     },
   });
 
   return (
-    <div className=" w-full mx-auto relative  notion-like-editor-wrapper">
-      <EditorNav editor={editor} />
-      <div className="mt-10  notion-like-editor-layout">
-        <EditorContent className="notion-like-editor-content" editor={editor} />
-        <Dragable editor={editor} />
-        <TocSidebar editor={editor} variant="line" />
-        <MyBubbleMenu editor={editor} />
-        <ImageBubbleMenu editor={editor} onReplaceClick={() => {}} />
+    <EditorContext.Provider value={{ editor }}>
+      <div className=" w-full mx-auto relative  notion-like-editor-wrapper">
+        <EditorNav editor={editor} />
+        <div className="mt-10  notion-like-editor-layout">
+          <EditorContent
+            className="notion-like-editor-content"
+            editor={editor}
+          />
+
+      <TableHandle editor={editor}/>
+
+          <Dragable editor={editor} />
+          <TocSidebar editor={editor} variant="line" />
+          <MyBubbleMenu editor={editor} />
+          <ImageBubbleMenu editor={editor} onReplaceClick={() => {}} />
+        </div>
       </div>
-    </div>
+    </EditorContext.Provider>
   );
 };
 

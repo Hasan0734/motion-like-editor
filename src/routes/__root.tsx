@@ -8,6 +8,8 @@ import { ThemeProvider } from "~/components/theme-provider";
 import appCss from "~/styles/app.css?url";
 import colors from "~/styles/colors.css?url";
 import prosemirror from "~/styles/prosemirror.css?url";
+import tableCss from "~/styles/table.css?url";
+
 import imageCss from "~/styles/image.css?url";
 import { TooltipProvider } from "~/components/ui/tooltip";
 import { Analytics } from "@vercel/analytics/react";
@@ -28,6 +30,7 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: colors },
       { rel: "stylesheet", href: prosemirror },
       { rel: "stylesheet", href: imageCss },
+      { rel: "stylesheet", href: tableCss },
 
       {
         rel: "apple-touch-icon",
