@@ -1,6 +1,5 @@
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { AnyExtension } from "@tiptap/core";
-import { baseKit } from "./base-kit";
 import { BlockGroupItem } from "../blocks/types";
 import { SlashCommand } from "./slash-command/slash-command";
 import suggestion from "./slash-command/suggestion";
@@ -33,14 +32,13 @@ import { UndoRedo } from '@tiptap/extensions'
 import { Indent } from './Indent';
 import emojiSuggestion from './emoji-picker/emoji-suggestion';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Image from '@tiptap/extension-image'
 import { TrailingNode } from '@tiptap/extensions'
 
 import { all, createLowlight } from 'lowlight'
 import React from 'react'
 import { FileHandlerExtenstion } from './file-handle';
 import { CustomImage } from '../node/image/CustomImage';
-import { ImageUploadNode } from '../tiptap-node/image-upload-node';
+import { ImageUploadNode } from '../node/image-upload';
 // import css from 'highlight.js/lib/languages/css'
 
 // create a lowlight instance with all languages loaded

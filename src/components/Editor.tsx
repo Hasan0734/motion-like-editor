@@ -122,7 +122,7 @@ const Editor = () => {
         <Dragable editor={editor} />
         <TocSidebar editor={editor} variant="line" />
         <MyBubbleMenu editor={editor} />
-        {/* <ImageBubbleMenu editor={editor} /> */}
+        <ImageBubbleMenu editor={editor} onReplaceClick={() => {}}/>
       </div>
     </div>
   );

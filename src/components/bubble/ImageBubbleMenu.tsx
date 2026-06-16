@@ -26,7 +26,14 @@ const ImageBubbleMenu = ({ editor, onReplaceClick }: ImageBubbleMenuProps) => {
       .run();
   };
 
-
+  const onReplace = () => {
+    editor
+      .chain()
+      .focus()
+      .deleteNode("image")
+      .insertContent({ type: "imageUpload" })
+      .run();
+  };
 
   return (
     <BubbleMenu
@@ -77,11 +84,7 @@ const ImageBubbleMenu = ({ editor, onReplaceClick }: ImageBubbleMenuProps) => {
           //   isActive={isBold}
           onClick={() => editor.chain().focus().toggleBold().run()}
         />
-        <ToggleButton
-          tooltip="Replace"
-          icon={RefreshCcw}
-          onClick={onReplaceClick}
-        />
+        <ToggleButton tooltip="Replace" icon={RefreshCcw} onClick={onReplace} />
         <ToggleButton
           variant="destructive"
           tooltip="Delete"

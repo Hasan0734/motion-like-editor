@@ -3,10 +3,11 @@
 import { useRef, useState } from "react"
 import type { NodeViewProps } from "@tiptap/react"
 import { NodeViewWrapper } from "@tiptap/react"
-import { Button } from "~/components/tiptap-ui-primitive/button"
-import { CloseIcon } from "~/components/tiptap-icons/close-icon"
-import "~/components/tiptap-node/image-upload-node/image-upload-node.scss"
+
+import "./image-upload-node.scss"
 import { focusNextNode, isValidPosition } from "~/lib/tiptap-utils"
+import { Button } from "~/components/ui/button"
+import { XIcon } from "lucide-react"
 
 export interface FileItem {
   /**
@@ -108,6 +109,7 @@ function useFileUpload(options: UploadOptions) {
     setFileItems((prev) => [...prev, newFileItem])
 
     try {
+      console.log(options.upload)
       if (!options.upload) {
         throw new Error("Upload function is not defined")
       }
@@ -123,6 +125,7 @@ function useFileUpload(options: UploadOptions) {
         },
         abortController.signal
       )
+
 
       if (!url) throw new Error("Upload failed: No URL returned")
 
@@ -326,7 +329,7 @@ const ImageUploadDragArea: React.FC<ImageUploadDragAreaProps> = ({
 
   return (
     <div
-      className={`tiptap-image-upload-drag-area ${isDragActive ? "drag-active" : ""} ${isDragOver ? "drag-over" : ""}`}
+      className={`tiptap-image-upload-drag-area  ${isDragActive ? "drag-active" : ""} ${isDragOver ? "drag-over" : ""}`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -393,6 +396,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
             </span>
           )}
           <Button
+          size={'icon'}
             type="button"
             variant="ghost"
             onClick={(e) => {
@@ -400,7 +404,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
               onRemove()
             }}
           >
-            <CloseIcon className="tiptap-button-icon" />
+            <XIcon className="tiptap-button-icon" />
           </Button>
         </div>
       </div>
@@ -435,8 +439,17 @@ const DropZoneContent: React.FC<{ maxSize: number; limit: number }> = ({
 
 export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
   const { accept, limit, maxSize } = props.node.attrs
+  const [images, setImages] = useState([])
+
   const inputRef = useRef<HTMLInputElement>(null)
   const extension = props.extension
+
+  console.log(extension.options)
+
+
+  const upload = (file:File, ) => {
+
+  }
 
   const uploadOptions: UploadOptions = {
     maxSize,
@@ -452,6 +465,8 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 
   const handleUpload = async (files: File[]) => {
     const urls = await uploadFiles(files)
+
+    console.log(urls)
 
     if (urls.length > 0) {
       const pos = props.getPos()
@@ -501,12 +516,14 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 
   const hasFiles = fileItems.length > 0
 
+
   return (
     <NodeViewWrapper
-      className="tiptap-image-upload"
+      className="tiptap-image-upload py-8"
       tabIndex={0}
       onClick={handleClick}
     >
+      
       {!hasFiles && (
         <ImageUploadDragArea onFile={handleUpload}>
           <DropZoneContent maxSize={maxSize} limit={limit} />

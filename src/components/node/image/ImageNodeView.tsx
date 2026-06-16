@@ -98,6 +98,7 @@ export default function ImageNodeView({
       window.addEventListener("mouseup", removeListeners, { capture: true });
     },
   );
+
   const handleReplaceClick = () => {
     const currentPosition = typeof getPos === "function" ? getPos() : null;
     if (currentPosition === null || currentPosition == undefined) {
@@ -117,6 +118,8 @@ export default function ImageNodeView({
       .run();
   };
 
+  console.log(node)
+
   return (
     <NodeViewWrapper
       onMouseEnter={() => setIsHovered(true)}
@@ -126,10 +129,8 @@ export default function ImageNodeView({
       data-width={nodeWidth}
       ref={wrapperRef}
     >
-      <ImageBubbleMenu editor={editor} onReplaceClick={handleReplaceClick} />
-      {isReplacing ? (
-        <div>Replace me</div>
-      ) : (
+      {/* <ImageBubbleMenu editor={editor} onReplaceClick={handleReplaceClick} /> */}
+
         <div
           className="tiptap-image-container"
           data-drag-handle
@@ -167,7 +168,6 @@ export default function ImageNodeView({
         >
         </NodeViewContent> */}
         </div>
-      )}
     </NodeViewWrapper>
   );
 }

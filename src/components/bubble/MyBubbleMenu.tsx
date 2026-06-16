@@ -42,7 +42,7 @@ const MyBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       pluginKey="textMenu"
       className="bg-card not-prose border shadow-xl rounded-xl px-1 flex items-center gap-1 py-1"
       shouldShow={({ editor, view, state, from, to }) => {
-        if (editor.isActive("image") || editor.isActive("image")) {
+        if (editor.isActive("image") || editor.isActive("imageUpload")) {
           return false;
         }
         return view.hasFocus() && !state.selection.empty;
