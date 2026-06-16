@@ -28,14 +28,17 @@ const updatePosition = (editor: Editor, element: HTMLElement) => {
 
 
 
+
 export default <Omit<SuggestionOptions, 'editor'>>{
     items: ({ query }) => {
 
+        if (!query) return blockItems;
+        const normalizedQuery = query.toLowerCase().trim();
 
-        const filtered = blockItems.filter((item) => item.commands.filter((com) => com.searchTerms.includes(query.toLowerCase())));
-        
-        console.log(filtered)
-        return filtered;
+        const filtered = blockItems.filter((item) => item.commands.filter((comm) => comm.searchTerms.includes(normalizedQuery)));
+        return filtered || [];
+
+
     },
     allow: ({ editor }) => {
         const isInsideHTMLCodeBlock = editor.isActive('htmlCodeBlock');

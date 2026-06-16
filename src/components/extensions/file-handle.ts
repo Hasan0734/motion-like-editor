@@ -1,7 +1,7 @@
 import FileHandler from '@tiptap/extension-file-handler'
 
 
-export const FileHandlerExtenstion = FileHandler.configure({
+export const FileHandlerExtension = FileHandler.configure({
     allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
     onDrop: (currentEditor, files, pos) => {
         files.forEach(file => {

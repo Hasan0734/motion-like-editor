@@ -135,6 +135,7 @@ export const isNodeInSchema = (
  * @returns boolean indicating if the focus was moved
  */
 export function focusNextNode(editor: Editor) {
+
   const { state, view } = editor
   const { doc, selection } = state
 
@@ -383,7 +384,9 @@ export const handleImageUpload = async (
     onProgress?.({ progress })
   }
 
-  return "/images/tiptap-ui-placeholder-image.jpg"
+  const objectUrl = URL.createObjectURL(file);
+
+  return objectUrl;
 }
 
 type ProtocolOptions = {

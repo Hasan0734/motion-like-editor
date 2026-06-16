@@ -19,6 +19,7 @@
     "@tanstack/react-start": "^1.168.25",
     "@tanstack/react-virtual": "^3.14.2",
     "@tiptap/core": "^3.26.0",
+    "@tiptap/extension-blockquote": "^3.26.1",
     "@tiptap/extension-bold": "^3.26.0",
     "@tiptap/extension-bubble-menu": "^3.26.0",
     "@tiptap/extension-character-count": "^3.26.0",

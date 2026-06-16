@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { UploadFunction } from "~/components/node/image-upload";
-import { UploadOptions } from "~/components/node/image-upload/image-upload-node-view";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -35,6 +33,8 @@ export const uploadFile = async (file: File, onProgress?: (event: { progress: nu
 
   // Generate the local object URL
   const objectUrl = URL.createObjectURL(file);
+
+  console.log(objectUrl)
 
   return objectUrl;
 }

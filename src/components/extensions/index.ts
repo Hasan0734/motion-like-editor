@@ -33,11 +33,11 @@ import { Indent } from './Indent';
 import emojiSuggestion from './emoji-picker/emoji-suggestion';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { TrailingNode } from '@tiptap/extensions'
-
+import Blockquote from '@tiptap/extension-blockquote'
 import { all, createLowlight } from 'lowlight'
-import React from 'react'
-import { FileHandlerExtenstion } from './file-handle';
+import { FileHandlerExtension } from './file-handle';
 import { CustomImage } from '../node/image/CustomImage';
+import Image from "@tiptap/extension-image"
 import { ImageUploadNode } from '../node/image-upload';
 // import css from 'highlight.js/lib/languages/css'
 
@@ -55,7 +55,9 @@ export function extensions(props: ExtensionProps) {
     const { blocks, extensions = [] } = props;
 
     const defaultExtensions = [
+        Blockquote,
         TrailingNode,
+        // Image,
         CustomImage,
         ImageUploadNode,
         Document,
@@ -148,7 +150,7 @@ export function extensions(props: ExtensionProps) {
         CodeBlockLowlight.configure({
             lowlight,
         }),
-        FileHandlerExtenstion,
+        FileHandlerExtension,
     ]
 
     return [

@@ -4,9 +4,10 @@ import ImageNodeView from './ImageNodeView'
 import { HTMLAttributes } from 'react'
 
 export const CustomImage = Image.extend({
-    atom: true,
     draggable: true,
-    group: "block",
+    // group: "block",
+    // content: "inline+",
+    // atom: true,
     addAttributes() {
         return {
             ...this.parent?.(),
@@ -14,16 +15,21 @@ export const CustomImage = Image.extend({
                 default: 'center',
 
             },
+            'data-width': {
+                default: 0
+            },
 
-            // width: {
-            //     default: 0,
-            //     parseHTML: elemment => elemment.getAttribute('dwidth') || parseInt(elemment.style.width, 10) || null,
-            //     renderHTML: attributes => {
-            //         console.log(attributes)
-            //         if (!attributes) return {};
-            //         return { width: attributes.width }
-            //     }
-            // },
+            width: {
+                default: 0,
+                parseHTML: element => {
+                    const val = element.getAttribute('data-width') || element.style.width;
+                    return val ? parseInt(val, 10) : 0
+                },
+                renderHTML: attributes => {
+                    return attributes['data-width']
+                }
+            },
+            
             // height: {
             //     default: 0,
             //     parseHTML: element => element.getAttribute('height') || parseInt(element.style.height, 10) || null,

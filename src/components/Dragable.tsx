@@ -64,7 +64,6 @@ const Dragable = ({ editor }: { editor: Editor | null }) => {
           <Button variant={"ghost"} className="" size={"icon-sm"}>
             <GripVertical />
           </Button>
-          
         </TooltipWraper>
       </div>
     </DragHandle>

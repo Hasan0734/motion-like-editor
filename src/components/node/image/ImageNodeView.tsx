@@ -1,6 +1,5 @@
 import React, { CSSProperties, useCallback, useRef, useState } from "react";
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
-import ImageBubbleMenu from "../../bubble/ImageBubbleMenu";
 import { useEvent } from "~/lib/use-event";
 import { getAspectRatio, getNewHeight } from "~/lib/aspect-ratio";
 
@@ -16,10 +15,10 @@ export default function ImageNodeView({
 }: NodeViewProps) {
   const { src, alignment, width: nodeWidth, height: nodeHeight } = node.attrs;
   const [isHovered, setIsHovered] = useState(false);
-  const [isReplacing, setIsReplacing] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLImageElement>(null);
+  // Change ref type back to HTMLDivElement since it targets the container div
+  const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
   const handleMouseDown = useEvent(
@@ -85,7 +84,7 @@ export default function ImageNodeView({
 
         if (containerRef.current) {
           containerRef.current.style.width = `${newWidth}px`;
-          // containerRef.current.style.height = `${newHeight}px`;
+          // Update attribute dynamically for CSS selection targeting
           wrapperRef.current?.setAttribute("data-width", String(newWidth));
         }
 
@@ -99,75 +98,77 @@ export default function ImageNodeView({
     },
   );
 
-  const handleReplaceClick = () => {
-    const currentPosition = typeof getPos === "function" ? getPos() : null;
-    if (currentPosition === null || currentPosition == undefined) {
-      return;
-    }
-
-    editor
-      .chain()
-      .focus()
-      .deleteRange({
-        from: currentPosition,
-        to: currentPosition + node.nodeSize,
-      })
-      .insertContentAt(currentPosition, {
-        type: "imageUpload",
-      })
-      .run();
-  };
-
-  console.log(node)
+  // 1. Calculate the final computed width value
+  const finalWidth = nodeWidth ? `${nodeWidth}px` : "auto";
 
   return (
     <NodeViewWrapper
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="tiptap-image"
+      className="tiptap-image transition-all duration-200 select-none"
       data-align={alignment}
-      data-width={nodeWidth}
+      data-width={nodeWidth || nodeWidth} // Handled via data attributes
       ref={wrapperRef}
     >
-      {/* <ImageBubbleMenu editor={editor} onReplaceClick={handleReplaceClick} /> */}
-
-        <div
-          className="tiptap-image-container"
-          data-drag-handle
-          // style={{ width: finalWidth }}
-          ref={containerRef}
-        >
-          <div className="tiptap-image-content">
-            <img
-              ref={imgRef}
-              contentEditable={false}
-              draggable={false}
-              className="tiptap-image-img cursor-pointer"
-              src={src}
-              alt="example"
-            />
-            {isHovered && (
-              <>
-                <div
-                  onMouseDown={handleMouseDown}
-                  data-direction="-w"
-                  className="tiptap-image-handle tiptap-image-handle-left"
-                ></div>
-                <div
-                  onMouseDown={handleMouseDown}
-                  data-direction="-e"
-                  className="tiptap-image-handle tiptap-image-handle-right"
-                ></div>
-              </>
-            )}
-          </div>
-          {/* <NodeViewContent
-          
-          data-placeholder="Add a caption..."
-          className={`tiptap-image-caption border bg-input`}
-        >
-        </NodeViewContent> */}
+      <div
+        className="tiptap-image-container"
+        style={{ width: finalWidth }}
+        ref={containerRef}
+      >
+        <div className="tiptap-image-content relative" >
+          <img
+            data-drag-handle
+            ref={imgRef}
+            contentEditable={false}
+            draggable={false}
+            className="tiptap-image-img cursor-pointer"
+            src={src}
+            alt="example"
+            onDragStart={(e) => e.preventDefault()}
+            style={
+              {
+                height: "auto",
+                display: "block",
+                userSelect: "none",
+                WebkitUserDrag: "none",
+              } as CSSProperties
+            } // Make image follow container width
+          />
+          {isHovered && (
+            <>
+              <div
+                onMouseDown={handleMouseDown}
+                data-direction="-w"
+                className="tiptap-image-handle tiptap-image-handle-left"
+              ></div>
+              <div
+                onMouseDown={handleMouseDown}
+                data-direction="-e"
+                className="tiptap-image-handle tiptap-image-handle-right"
+              ></div>
+            </>
+          )}
         </div>
+      </div>
     </NodeViewWrapper>
   );
 }
+
+// const handleReplaceClick = () => {
+//   const currentPosition = typeof getPos === "function" ? getPos() : null;
+//   if (currentPosition === null || currentPosition == undefined) {
+//     return;
+//   }
+
+//   editor
+//     .chain()
+//     .focus()
+//     .deleteRange({
+//       from: currentPosition,
+//       to: currentPosition + node.nodeSize,
+//     })
+//     .insertContentAt(currentPosition, {
+//       type: "imageUpload",
+//     })
+//     .run();
+// };

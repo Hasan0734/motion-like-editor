@@ -22,13 +22,13 @@ export const MenuListGroup = ({
 }: CommandListItemsProps) => {
   let absoluteIndexOffset = 0;
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" >
       {groups.map((blockGroupItem, i) => {
         const currentGroupCommands = blockGroupItem.commands;
         const groupStartOffset = absoluteIndexOffset;
         absoluteIndexOffset += currentGroupCommands.length;
         return (
-          <CommandGroup heading={blockGroupItem.title}>
+          <CommandGroup heading={blockGroupItem.title} key={blockGroupItem.title}>
             {currentGroupCommands.map((block, relativeIndex) => {
               const itemIndex = groupStartOffset + relativeIndex;
               const isSelected = itemIndex === selectedIndex;

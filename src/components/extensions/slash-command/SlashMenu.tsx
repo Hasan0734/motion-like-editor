@@ -35,7 +35,7 @@ const SlashMenu = forwardRef<unknown, CommandListProps>((props, ref) => {
 
 
   return (
-      <Command className="border shadow-2xl w-55" >
+      <Command className="border shadow-2xl w-55 z-120" >
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <MenuListGroup flatCommands={flatCommands} groups={groups} selectedIndex={selectedIndex} onSelectIndex={selectItem}/>

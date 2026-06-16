@@ -12,6 +12,7 @@ import { mention } from "../../blocks/mention";
 import { emoji } from "../../blocks/emoji";
 import { separator } from "../../blocks/separator";
 import { tableOfContents } from "../../blocks/tableOfContents";
+import { uploadImage } from "~/components/blocks/image";
 
 export const blockItems = [
     {
@@ -51,8 +52,7 @@ export const blockItems = [
     {
         title: "Upload",
         commands: [
-            heading3,
-            bulletList,
+            uploadImage,
 
         ]
     }
