@@ -4,22 +4,23 @@ import {
   TableMenuHandlePlugin,
   TableMenuHandlePluginProps,
 } from "./plugins/table-menu-handle-plugin";
-import { TableAddRowPlugin, TableAddRowPluginProps } from "./plugins/add-row-plugin";
+import {
+  TableAddRowPlugin,
+  TableAddRowPluginProps,
+} from "./plugins/add-row-plugin";
 
-export interface TableMenuHandleProps2 {
+export interface TableAddRowColumnHandleProps {
   ref?: React.ForwardedRef<HTMLDivElement>;
   children: React.ReactNode;
   pluginProps: Omit<TableAddRowPluginProps, "element">;
-
 }
 
-export const TableMenuHandle2 = ({
+export const TableAddRowColumnHandle = ({
   ref,
   children,
   pluginProps,
-}: TableMenuHandleProps2) => {
+}: TableAddRowColumnHandleProps) => {
   const rootElementRef = useRef(document.createElement("div"));
-
 
   useEffect(() => {
     if (typeof ref === "function") {

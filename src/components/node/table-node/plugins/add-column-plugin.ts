@@ -14,338 +14,73 @@ export interface AddColumnPluginProps {
     editor: Editor;
     element: HTMLElement;
     pluginKey: PluginKey<TableControlState>;
-    options?: FloatingUIOptionsProps
 }
 
 export function AddColumnPlugin({
     editor,
     element,
     pluginKey,
-    options
 }: AddColumnPluginProps) {
 
-    const floatingUIOptions: NonNullable<FloatingUIOptionsProps> = options ?? {
-        strategy: "absolute",
-        placement: "top",
-        offset: 0,
-        flip: {},
-        shift: {},
-        arrow: false,
-        size: false,
-        autoPlacement: false,
-        hide: false,
-        inline: false,
-    };
-
-    let visible = false;
-
-    let ticking = false;
-    let currentTablePos: number | undefined;
-    let currentCellPos: number | undefined;
-
-    const showMenu = (_view: EditorView, root: HTMLElement | null) => {
-        if (visible) {
-            return;
-        }
-
-        element.style.visibility = "visible";
-        element.style.opacity = "1";
-        // attach to editor's parent element
-        root?.appendChild(element);
-        // view.dom.parentElement?.appendChild(element);
-
-        floatingUIOptions.onShow?.();
-
-        visible = true;
+    // Quick helper to safely set opacity transitions
+    const setVisibility = (opacity: "0" | "1") => {
+        element.style.transition = "opacity 0.2s ease"; // Smooth fading
+        element.style.opacity = opacity;
     };
 
 
-    const hide = () => {
-        if (!visible) return;
+    return new Plugin<TableControlState>({
+        key: pluginKey,
+        props: {
+            handleDOMEvents: {
+                mouseover(view, event) {
+                    const target = event.target as HTMLElement;
 
-        element.remove();
-
-        element.style.opacity = "0";
-        element.style.visibility = "hidden";
-
-        floatingUIOptions.onHide?.();
-        visible = false;
-
-    };
-
-    const updatePosition = async (
-        view: EditorView, rect: DOMRect,
-    ) => {
-
-        const pluginState = pluginKey.getState(view.state);
-        if (pluginState?.visible) {
-            return;
-        }
-        // const firstRow =
-        //     table.querySelector("tr");
-
-        // if (!firstRow) return;
-
-        // const lastCell =
-        //     firstRow.lastElementChild;
-
-        // if (!lastCell) return;
-
-        // const cellRect =
-        //     lastCell.getBoundingClientRect();
-
-        // const tableRect =
-        //     table.getBoundingClientRect();
-
-        const virtualElement = {
-            getBoundingClientRect: () => rect,
-            getClientRects: () => [rect],
-        };
+                    const insideControls = target.closest(".table-controls");
+                    const lastRow = target.closest("table tr:last-child");
 
 
+                    if (insideControls || lastRow) {
+                        // Find the master wrapper to locate/move our button if necessary
+                        const tableWrapper = target.closest(".tableWrapper");
+                        const tableElement = tableWrapper?.querySelector("table");
+                        const controls = tableWrapper?.querySelector(".table-controls") as HTMLElement | null;
 
-        const { x, y } =
-            await computePosition(
-                virtualElement,
-                element,
-                {
-                    placement: "right",
-                    middleware: [
-                        offset(6),
-                    ],
+                        if (controls && tableElement) {
+                            const pos = view.posAtDOM(tableElement, 0);
+
+                            element.setAttribute("data-table-pos", String(pos - 1));
+
+                            if (!controls.contains(element)) {
+                                element.style.position = "";
+                                controls.appendChild(element);
+                            }
+                            setVisibility("1");
+                            return false;
+                        }
+                    }
+                    setVisibility("0");
+                    return false;
+                },
+
+                mouseleave(view, event) {
+                    // Fade it out completely when mouse leaves the editor view canvas
+                    setVisibility("0");
+                    return false;
                 }
-            );
-
-        element.style.left = `${x}px`;
-        element.style.top = `${y}px`;
-        element.style.position = "absolute";
-
-        if (visible) {
-            floatingUIOptions.onUpdate?.()
-        }
-    };
-
-
-    const handleMouseMove = (view: EditorView, evt: MouseEvent) => {
-        const target = evt.target as Element;
-        if (!target) {
-            return;
-        }
-
-
-        const pluginState = pluginKey.getState(view.state);
-        if (pluginState?.visible) {
-            return;
-        }
-
-        const pos = view.posAtDOM(target, 0);
-
-        if (pos === undefined) {
-            return;
-        }
-        let tableNodePos: number | undefined = undefined;
-        let cellNodePos: number | undefined = undefined;
-
-
-
-        if (tableNodePos === undefined) {
-            hide();
-            return;
-        }
-
-        if (currentTablePos !== tableNodePos) {
-            hide();
-        }
-        if (cellNodePos === undefined) {
-            return;
-        }
-
-        if (currentCellPos === cellNodePos) {
-            return;
-        }
-
-
-
-
-        const tableCell = view.nodeDOM(cellNodePos);
-        if (!tableCell || !(tableCell instanceof HTMLTableCellElement)) {
-            return;
-        }
-        const tableCellRect = tableCell.getBoundingClientRect();
-
-        currentTablePos = tableNodePos;
-
-
-
-        const tableRoot = view.nodeDOM(tableNodePos);
-        if (!tableRoot || !(tableRoot instanceof HTMLDivElement)) {
-            hide();
-            return;
-        }
-        // console.log(TableMap.get(view.state.doc.nodeAt(tableNodePos)!));
-
-        const table = tableRoot.querySelector("table");
-        if (!table) {
-            return;
-        }
-
-        const tableRect = table.getBoundingClientRect();
-        const offset = 16;
-
-        tableCellRect.y = tableRect.y;
-
-    }
-    return new Plugin({
-        key: addColumnPluginKey,
-        state: {
-            init: () => {
-                return {
-                    visible: false
-                }
-            },
-            apply: (tr, vlaue) => {
-                const meta = tr.getMeta(addColumnPluginKey)
-
-                console.log(meta)
-                return vlaue;
             }
         },
         view() {
+            // Initial state is hidden until a hover happens
+            element.style.opacity = "0";
+            element.style.visibility = 'visible';
+            element.style.right = '0'
+
             return {
-                update: (view, prevState) => {
-                    const prevPluginState = pluginKey.getState(prevState);
-                    const pluginState = pluginKey.getState(view.state);
-
-                    if (currentCellPos === undefined) {
-                        hide();
-                        return;
-                    }
-
-                    const tableNode = findParentNodeClosestToPos(
-                        view.state.doc.resolve(currentCellPos),
-                        (n) => {
-                            return n.type.name === "table";
-                        }
-                    );
-                    if (!tableNode) {
-                        hide();
-                        return;
-                    }
-                    const tableCell = view.nodeDOM(currentCellPos);
-                    const tableRoot = view.nodeDOM(tableNode.pos);
-
-
-                    if (!tableRoot || !(tableRoot instanceof HTMLDivElement)) {
-                        hide();
-                        return;
-                    }
-
-                    if (!tableCell || !(tableCell instanceof HTMLTableCellElement)) {
-                        hide();
-                        return;
-                    }
-
-                    const table = tableRoot.querySelector("table");
-                    if (!table) {
-                        return;
-                    }
-
-
-                    const tableRect = table.getBoundingClientRect();
-                    const tableCellRect = tableCell.getBoundingClientRect();
-
-                    tableCellRect.x = tableRect.x;
-                    updatePosition(view, tableCellRect);
-                },
                 destroy() {
-                    hide();
-                    floatingUIOptions.onDestroy?.();
+                    element.remove();
                 },
             };
         },
-        props: {
-            handleDOMEvents: {
-                mousemove(view, event) {
-
-                    if (!ticking) {
-                        window.requestAnimationFrame(() => {
-                            handleMouseMove(view, event);
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-
-                    // console.log({event})
-                    // if (!editor.isActive("table")) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // const target =
-                    //     event.target as HTMLElement;
-
-                    // const td =
-                    //     target.closest("td,th");
-
-                    // if (!td) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // const table =
-                    //     td.closest("table");
-
-                    // if (!table) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // const firstRow =
-                    //     table.querySelector("tr");
-
-                    // const lastCell =
-                    //     firstRow?.lastElementChild;
-
-                    // if (!lastCell) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // if (td !== lastCell) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // const rect =
-                    //     lastCell.getBoundingClientRect();
-
-                    // const hoverZone = 16;
-
-                    // const isRightHover =
-                    //     event.clientX >
-                    //     rect.right - hoverZone;
-
-                    // if (!isRightHover) {
-                    //     hide();
-                    //     return false;
-                    // }
-
-                    // updatePosition(table);
-
-                    // const root =
-                    //     table.parentElement;
-
-                    // if (root) {
-                    //     // showMenu(root);
-                    //     console.log(root)
-                    // }
-
-                    // return false;
-                },
-                mousedown: handleMouseMove
-            },
-        },
-
-
     });
 }

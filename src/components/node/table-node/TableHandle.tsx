@@ -16,38 +16,9 @@ import { PluginKey } from "@tiptap/pm/state";
 import { RowMenuPopover } from "./popover/RowMenuPopover";
 import { addColumnPluginKey, addRowPluginKey } from "./plugins/plugin-keys";
 import { AddRowButton } from "./AddRowButton";
-import { TableMenuHandle2, TableMenuHandleProps2 } from "./TableMenuHandle2";
+import { TableAddRowColumnHandle } from "./TableAddRowColumnHandle";
 
 export const TableHandle = ({ editor }: { editor: Editor | null }) => {
-  const addRowPluginProps = useMemo(() => {
-    if (!editor) {
-      return undefined;
-    }
-
-    return {
-      editor,
-      pluginKey: addRowPluginKey,
-      options: {
-        placement: "bottom",
-        offset: {
-          mainAxis: 6,
-        },
-      },
-    };
-  }, [editor]);
-
-  const addColumnPluginProps = useMemo(() => {
-    if (!editor) {
-      return undefined;
-    }
-
-    return {
-      editor,
-      pluginKey: addColumnPluginKey,
-
-    } satisfies TableMenuHandleProps2["pluginProps"];
-  }, [editor]);
-
   const columnMenuPluginProps = useMemo(() => {
     if (!editor) {
       return undefined;
@@ -107,27 +78,15 @@ export const TableHandle = ({ editor }: { editor: Editor | null }) => {
           <RowMenuPopover editor={editor} />
         </TableMenuHandle>
       )}
-      {/* 
-      {addRowPluginProps && (
-        <TableMenuHandle pluginProps={addRowPluginProps}>
-          <AddRowButton editor={editor} />
-        </TableMenuHandle>
-      )} */}
 
-      {/* {addColumnPluginProps && (
-        <TableMenuHandle2 pluginProps={addColumnPluginProps}>
-          <AddColumnButton editor={editor} />
-        </TableMenuHandle2>
-      )} */}
-
-      <TableMenuHandle2
+      <TableAddRowColumnHandle
         pluginProps={{
           editor,
           pluginKey: addRowPluginKey,
         }}
       >
         <AddRowButton editor={editor} />
-      </TableMenuHandle2>
+      </TableAddRowColumnHandle>
 
       {tableSelectionOverlayProps && (
         <TableSelectionOverlay pluginProps={tableSelectionOverlayProps}>
