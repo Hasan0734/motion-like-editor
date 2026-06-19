@@ -36,11 +36,11 @@ import Blockquote from '@tiptap/extension-blockquote'
 import { all, createLowlight } from 'lowlight'
 import { FileHandlerExtension } from './file-handle';
 import { CustomImage } from '../node/image/CustomImage';
-import Image from "@tiptap/extension-image"
+import UniqueID from '@tiptap/extension-unique-id'
 import { ImageUploadNode } from '../node/image-upload';
-import { TableHandleExtension } from './table-handle-extension/TableHandleExtension';
-import { TableNodeExtension } from '../node/table-node/TableNode';
+
 import { TableKit } from '@tiptap/extension-table';
+import { CustomTableKit } from '../node/table-node/table-kit';
 
 // import css from 'highlight.js/lib/languages/css'
 
@@ -58,6 +58,9 @@ export function extensions(props: ExtensionProps) {
     const { blocks, extensions = [] } = props;
 
     const defaultExtensions = [
+        UniqueID.configure({
+            types: "all",
+        }),
         Blockquote,
         TrailingNode,
         // Image,
@@ -125,16 +128,17 @@ export function extensions(props: ExtensionProps) {
         Dropcursor.configure({
             class: "transition-all duration-300 ease-out"
         }),
-        TableKit.configure({
-            table: {
-                resizable: true,
+        CustomTableKit,
+        // TableHandleExtension,
 
-            },
-        }),
+        // TableNodeExtension.configure({
+        //     table: {
+        //         resizable: true,
 
-        // TableNodeExtension,
+        //     }
+        // }),
 
-        TableHandleExtension,
+        // TableHandleExtension,
 
 
         Mention.configure({

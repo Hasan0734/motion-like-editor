@@ -5,7 +5,7 @@ import { TocSidebar } from "./toc-sidebar/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
 import Dragable from "./Dragable";
 import ImageBubbleMenu from "./bubble/ImageBubbleMenu";
-import { TableHandle } from "./extensions/table-handle-extension";
+import { TableHandle } from "./node/table-node/TableHandle";
 
 const Editor = () => {
   const editor = useEditor({
@@ -163,6 +163,7 @@ const Editor = () => {
       <h2>Deep Dive Feature</h2>
       <p>More paragraphs...</p>
   `,
+
     editorProps: {
       attributes: {
         class:
@@ -170,6 +171,8 @@ const Editor = () => {
       },
     },
   });
+
+  if (!editor) return null;
 
   return (
     <EditorContext.Provider value={{ editor }}>
@@ -181,9 +184,9 @@ const Editor = () => {
             editor={editor}
           />
 
-      <TableHandle editor={editor}/>
-
           <Dragable editor={editor} />
+          <TableHandle editor={editor}/>
+          
           <TocSidebar editor={editor} variant="line" />
           <MyBubbleMenu editor={editor} />
           <ImageBubbleMenu editor={editor} onReplaceClick={() => {}} />
