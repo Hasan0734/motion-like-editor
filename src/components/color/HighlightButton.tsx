@@ -36,7 +36,7 @@ const HighlightButton = ({
 
   return (
     <>
-      <TooltipWraper title={tooltip}>
+      <TooltipWraper content={tooltip}>
         <Button
           size={"icon"}
           variant={isActive ? "secondary" : "ghost"}

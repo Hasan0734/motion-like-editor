@@ -14,23 +14,23 @@ import { useEditorState } from "@tiptap/react";
 const RECENT_COLORS_KEY = "recentlyUsedColors";
 const MAX_RECENT = 3;
 
-const getRecentColors = (): Color[] => {
+export const getRecentColors = (): Color[] => {
   if (typeof window === "undefined") return [];
   const stored = localStorage.getItem(RECENT_COLORS_KEY);
   return stored ? JSON.parse(stored) : [];
 };
 
-type Color = {
+export type Color = {
   name: string;
   value: string;
   type: string;
 };
 
-type GroupColors = {
+export type GroupColors = {
   title: string;
   colors: Color[];
 };
-const colors: Color[] = [
+export const colors: Color[] = [
   {
     name: "Default",
     value: "default",
@@ -83,7 +83,7 @@ const colors: Color[] = [
   },
 ];
 
-const groupColors: GroupColors[] = [
+export const groupColors: GroupColors[] = [
   {
     title: "Text color",
     colors: colors.map((color) => ({ ...color, type: "text" })),
@@ -129,7 +129,7 @@ const ColorDropdown = ({ editor }: { editor: Editor }) => {
 
   return (
     <Popover>
-      <TooltipWraper title={"Text color"}>
+      <TooltipWraper content={"Text color"}>
         <PopoverTrigger asChild>
           <Button variant={"ghost"} className="p-2 gap-1">
             <span

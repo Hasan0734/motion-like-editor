@@ -1,4 +1,4 @@
-import { EllipsisIcon, EqualIcon } from "lucide-react";
+import { EllipsisIcon, EqualIcon, PaintBucket, SquareX } from "lucide-react";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -13,11 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
-import { columnMenuPluginKey } from "../plugins/table-menu-handle-plugin";
 import { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
 import { TextSelection } from "@tiptap/pm/state";
 import { CellSelection, deleteCellSelection } from "@tiptap/pm/tables";
+import { AlignmentDropdown } from "./AlignmentContent";
+import { ITEM_CLASSNAME } from "./TableMenuPopover";
+import { ColorsDropdwon } from "./Colors";
+import { TableMergeIcon } from "~/components/icons";
 
 interface CellMenusState {
   canMergeCell: boolean;
@@ -115,7 +118,7 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="flex max-h-80 w-40 flex-col overflow-hidden overflow-y-auto shadow-xl"
+        className="flex max-h-80 w-55 flex-col overflow-hidden overflow-y-auto shadow-xl"
         align="start"
         side="bottom"
       >
@@ -126,7 +129,7 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
               editor.chain().focus().mergeCells().run();
             }}
           >
-            Merge cells
+            <TableMergeIcon /> Merge cells
           </DropdownMenuItem>
           <DropdownMenuItem
             hidden={!canSplitCell}
@@ -134,20 +137,14 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
               editor.chain().focus().splitCell().run();
             }}
           >
-            Split cell
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              editor.chain().focus().toggleHeaderCell().run();
-            }}
-          >
-            Toggle header cell
+            <TableMergeIcon /> Split cell
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+       {(canMergeCell || canSplitCell) && <DropdownMenuSeparator />}
         <DropdownMenuGroup>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Alignment</DropdownMenuSubTrigger>
+          <ColorsDropdwon editor={editor} />
+          <AlignmentDropdown editor={editor} />
+          {/* <DropdownMenuSub>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuItem
@@ -185,7 +182,7 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
-          </DropdownMenuSub>
+          </DropdownMenuSub> */}
           <DropdownMenuItem
             hidden={!canClearContents}
             onClick={() => {
@@ -201,6 +198,15 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
             Clear contents
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className={ITEM_CLASSNAME}
+          onClick={() => {
+            editor.chain().focus().addColumnAfter().run();
+          }}
+        >
+          <SquareX /> Clear column contents
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

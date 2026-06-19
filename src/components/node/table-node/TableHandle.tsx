@@ -13,10 +13,10 @@ import {
 } from "./TableSelectionOverlay";
 import { PluginKey } from "@tiptap/pm/state";
 import { RowMenuPopover } from "./popover/RowMenuPopover";
-import {  addRowPluginKey } from "./plugins/plugin-keys";
+import { addRowPluginKey } from "./plugins/plugin-keys";
 import { AddRowButton } from "./AddRowButton";
 import { TableAddRowColumnHandle } from "./TableAddRowColumnHandle";
-
+import { TableMenuPopover } from "./popover/TableMenuPopover";
 
 export const TableHandle = ({ editor }: { editor: Editor | null }) => {
   const columnMenuPluginProps = useMemo(() => {
@@ -71,12 +71,24 @@ export const TableHandle = ({ editor }: { editor: Editor | null }) => {
       <div>
         {columnMenuPluginProps && (
           <TableMenuHandle pluginProps={columnMenuPluginProps}>
-            <ColumnMenuPopover editor={editor} />
+            {/* <ColumnMenuPopover editor={editor} /> */}
+
+            <TableMenuPopover
+              pluginKey={columnMenuPluginKey}
+              type="column"
+              editor={editor}
+            />
           </TableMenuHandle>
         )}
         {rowMenuPluginProps && (
           <TableMenuHandle pluginProps={rowMenuPluginProps}>
-            <RowMenuPopover editor={editor} />
+            {/* <RowMenuPopover editor={editor} /> */}
+
+            <TableMenuPopover
+              pluginKey={rowMenuPluginKey}
+              type="row"
+              editor={editor}
+            />
           </TableMenuHandle>
         )}
       </div>

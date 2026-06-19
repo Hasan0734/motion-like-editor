@@ -24,7 +24,7 @@ const TextButton = ({ tooltip, color, onClick, editor }: TextButtonProps) => {
 
   return (
     <>
-      <TooltipWraper title={tooltip}>
+      <TooltipWraper content={tooltip}>
         <Button
           size={"icon"}
           variant={isActive ? "secondary" : "ghost"}

@@ -1,38 +1,43 @@
 import { Editor } from "@tiptap/core";
-import { EllipsisVerticalIcon } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowDownZA,
+  ArrowUp,
+  ArrowUpAZ,
+  CopyIcon,
+  EllipsisVerticalIcon,
+  PaintBucket,
+  SquareX,
+  Trash,
+} from "lucide-react";
 import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
 } from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
 import { rowMenuPluginKey } from "../plugins/table-menu-handle-plugin";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import { InsertRowAbove, InsertRowBelow } from "~/components/icons";
+import { AlignmentIcon } from "~/components/color/icon";
+import { AlignmentContent } from "./ColumnMenuPopover";
+import { ColorsDropdwon } from "./Colors";
+import { AlignmentDropdown } from "./AlignmentContent";
+
+const className = "py-1.5 rounded-lg text-muted-foreground font-medium";
 
 export const RowMenuPopover = ({ editor }: { editor: Editor }) => {
   const [opened, setOpened] = useState(false);
   return (
     <DropdownMenu
       open={opened}
-      //   onOpenChange={setOpened}
-      //   onOpenChangeComplete={(op) => {
-      //     editor
-      //       .chain()
-      //       .command(({ tr }) => {
-      //         tr.setMeta(rowMenuPluginKey, { openedMenu: op });
-      //         return true;
-      //       })
-      //       .run();
-      //   }}
-
       onOpenChange={(op) => {
-        // 1. Update your open state
         setOpened(op);
-
-        // 2. Execute your Tiptap editor plugin metadata logic immediately
         editor
           .chain()
           .command(({ tr }) => {
@@ -52,35 +57,94 @@ export const RowMenuPopover = ({ editor }: { editor: Editor }) => {
         <EllipsisVerticalIcon className="size-4 shrink-0" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="max-h-80 w-40 overflow-hidden overflow-y-auto shadow-xl"
+        className=" shadow-xl w-60 pr-px"
         align="start"
         side="right"
       >
-        <DropdownMenuGroup>
+        <ScrollArea className="h-80 overflow-hidden overflow-y-auto p-0.5 pr-3">
           <DropdownMenuItem
+            className={className}
             onClick={() => {
               editor.chain().focus().addRowBefore().run();
             }}
           >
-            Add row before
+            <ArrowUp /> Move row up
           </DropdownMenuItem>
           <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().addRowBefore().run();
+            }}
+          >
+            <ArrowDown /> Move row down
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().addRowBefore().run();
+            }}
+          >
+            <InsertRowAbove /> Insert row above
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className={className}
             onClick={() => {
               editor.chain().focus().addRowAfter().run();
             }}
           >
-            Add row after
+            <InsertRowBelow /> Insert row below
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().addColumnAfter().run();
+            }}
+          >
+            <ArrowUpAZ /> Sort row A-Z
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().addColumnAfter().run();
+            }}
+          >
+            <ArrowDownZA /> Sort row Z-A
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <ColorsDropdwon editor={editor} />
+          <AlignmentDropdown editor={editor} />
+
+          <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().addColumnAfter().run();
+            }}
+          >
+            <SquareX /> Clear column contents
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className={className}
+            onClick={() => {
+              editor.chain().focus().deleteColumn().run();
+            }}
+          >
+            <CopyIcon /> Duplicate column
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            className={className}
             onClick={() => {
               editor.chain().focus().deleteRow().run();
             }}
             variant="destructive"
           >
-            Delete row
+            <Trash /> Delete row
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
   );
