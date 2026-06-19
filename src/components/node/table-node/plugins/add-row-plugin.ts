@@ -34,17 +34,18 @@ export function TableAddRowPlugin({
 
                     if (insideControls || lastRow) {
                         // Find the master wrapper to locate/move our button if necessary
-                        const tableWrapper = target.closest(".tableWrapper");
+                        const tableWrapper = target.closest(".table-wrapper");
                         const tableElement = tableWrapper?.querySelector("table");
                         const controls = tableWrapper?.querySelector(".table-controls") as HTMLElement | null;
 
                         if (controls && tableElement) {
                             const pos = view.posAtDOM(tableElement, 0);
 
-                            element.setAttribute("data-table-pos", String(pos - 1));
+                           element.setAttribute("data-table-pos", String(pos - 1));
 
                             if (!controls.contains(element)) {
                                 element.style.position = "";
+                                element.style.width = `${tableElement.offsetWidth}px`
                                 controls.appendChild(element);
                             }
                             setVisibility("1");

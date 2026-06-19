@@ -1,80 +1,87 @@
-import {
-    computePosition,
-    offset,
-} from "@floating-ui/dom";
-
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { Editor, findParentNodeClosestToPos } from "@tiptap/react";
-import { addColumnPluginKey, TableControlState } from "./plugin-keys";
-import { FloatingUIOptionsProps } from "./table-menu-handle-plugin";
-import { EditorView } from "@tiptap/pm/view";
+import { Editor } from "@tiptap/react";
+import { TableControlState } from "./plugin-keys";
 
-
-export interface AddColumnPluginProps {
+export interface TableAddColumnPluginProps {
     editor: Editor;
     element: HTMLElement;
     pluginKey: PluginKey<TableControlState>;
 }
 
-export function AddColumnPlugin({
+export function TableAddColumnPlugin({
     editor,
     element,
     pluginKey,
-}: AddColumnPluginProps) {
-
-    // Quick helper to safely set opacity transitions
+}: TableAddColumnPluginProps) {
     const setVisibility = (opacity: "0" | "1") => {
-        element.style.transition = "opacity 0.2s ease"; // Smooth fading
+        element.style.transition = "opacity 0.2s ease";
         element.style.opacity = opacity;
     };
 
-
     return new Plugin<TableControlState>({
         key: pluginKey,
+
         props: {
             handleDOMEvents: {
                 mouseover(view, event) {
                     const target = event.target as HTMLElement;
 
                     const insideControls = target.closest(".table-controls");
-                    const lastRow = target.closest("table tr:last-child");
 
+                    const lastColumnCell = target.closest(
+                        "table tr td:last-child, table tr th:last-child"
+                    );
 
-                    if (insideControls || lastRow) {
-                        // Find the master wrapper to locate/move our button if necessary
+                    if (insideControls || lastColumnCell) {
                         const tableWrapper = target.closest(".tableWrapper");
-                        const tableElement = tableWrapper?.querySelector("table");
-                        const controls = tableWrapper?.querySelector(".table-controls") as HTMLElement | null;
+
+                        const tableElement =
+                            tableWrapper?.querySelector("table") ?? null;
+
+
+                        console.log(tableElement?.offsetHeight)
+
+                        const controls =
+                            tableWrapper?.querySelector(".table-controls") as HTMLElement | null;
 
                         if (controls && tableElement) {
                             const pos = view.posAtDOM(tableElement, 0);
 
-                            element.setAttribute("data-table-pos", String(pos - 1));
+                            element.setAttribute(
+                                "data-table-pos",
+                                String(pos - 1)
+                            );
 
                             if (!controls.contains(element)) {
-                                element.style.position = "";
                                 controls.appendChild(element);
                             }
+
+                            // Position on right side
+                            element.style.height = `${tableElement?.offsetHeight}px`
+                            element.style.position = "absolute";
+                            element.style.top = "45%";
+                            element.style.left = `${tableElement.offsetWidth + 18}px`;
+                            element.style.transform = "translateY(-50%)";
+
                             setVisibility("1");
                             return false;
                         }
                     }
+
                     setVisibility("0");
                     return false;
                 },
 
-                mouseleave(view, event) {
-                    // Fade it out completely when mouse leaves the editor view canvas
+                mouseleave() {
                     setVisibility("0");
                     return false;
-                }
-            }
+                },
+            },
         },
+
         view() {
-            // Initial state is hidden until a hover happens
-            element.style.opacity = "0";
-            element.style.visibility = 'visible';
-            element.style.right = '0'
+            element.style.opacity = "1";
+            element.style.visibility = "visible";
 
             return {
                 destroy() {

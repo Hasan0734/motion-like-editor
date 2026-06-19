@@ -83,7 +83,7 @@
 
 .tiptap table {
   word-break: break-word;
-  width: auto !important;
+  width: auto;
 }
 
 .tiptap th,

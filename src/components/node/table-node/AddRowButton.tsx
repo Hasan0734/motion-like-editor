@@ -19,7 +19,7 @@ export function AddRowButton({ editor }: { editor: Editor }) {
     const container = e.currentTarget.parentElement;
     const tablePosAttr = container?.getAttribute("data-table-pos");
     const tableElement = container
-      ?.closest(".tableWrapper")
+      ?.closest(".table-wrapper")
       ?.querySelector("table");
     const lastRowElement = tableElement?.querySelector("tr:last-child");
 
@@ -75,10 +75,10 @@ export function AddRowButton({ editor }: { editor: Editor }) {
   };
   return (
     <button
-      className="w-full bg-accent flex justify-center items-center rounded-full mt-1 cursor-ns-resize selection:bg-transparent"
+      className="w-full h-3 bg-accent flex justify-center items-center rounded-full mt-1 cursor-ns-resize selection:bg-transparent"
       onMouseDown={handleMouseDown}
     >
-      <Plus size={14} />
+      <Plus size={12} />
     </button>
   );
 }

@@ -30,15 +30,6 @@ export const ColumnMenuPopover = ({ editor }: { editor: Editor }) => {
           })
           .run();
       }}
-      //   onOpenChangeComplete={(op) => {
-      //     editor
-      //       .chain()
-      //       .command(({ tr }) => {
-      //         tr.setMeta(columnMenuPluginKey, { openedMenu: op });
-      //         return true;
-      //       })
-      //       .run();
-      //   }}
     >
       <DropdownMenuTrigger
         className={cn("w-full h-3 rounded flex items-center justify-center", {

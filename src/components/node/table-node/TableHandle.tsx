@@ -4,7 +4,6 @@ import { Editor } from "@tiptap/core";
 import {
   columnMenuPluginKey,
   rowMenuPluginKey,
-  tableMenuPuginKey,
 } from "./plugins/table-menu-handle-plugin";
 import { ColumnMenuPopover } from "./popover/ColumnMenuPopover";
 import { CellMenuPopover } from "./popover/CellMenuPopover";
@@ -14,9 +13,10 @@ import {
 } from "./TableSelectionOverlay";
 import { PluginKey } from "@tiptap/pm/state";
 import { RowMenuPopover } from "./popover/RowMenuPopover";
-import { addColumnPluginKey, addRowPluginKey } from "./plugins/plugin-keys";
+import {  addRowPluginKey } from "./plugins/plugin-keys";
 import { AddRowButton } from "./AddRowButton";
 import { TableAddRowColumnHandle } from "./TableAddRowColumnHandle";
+
 
 export const TableHandle = ({ editor }: { editor: Editor | null }) => {
   const columnMenuPluginProps = useMemo(() => {
@@ -68,16 +68,18 @@ export const TableHandle = ({ editor }: { editor: Editor | null }) => {
   }
   return (
     <>
-      {columnMenuPluginProps && (
-        <TableMenuHandle pluginProps={columnMenuPluginProps}>
-          <ColumnMenuPopover editor={editor} />
-        </TableMenuHandle>
-      )}
-      {rowMenuPluginProps && (
-        <TableMenuHandle pluginProps={rowMenuPluginProps}>
-          <RowMenuPopover editor={editor} />
-        </TableMenuHandle>
-      )}
+      <div>
+        {columnMenuPluginProps && (
+          <TableMenuHandle pluginProps={columnMenuPluginProps}>
+            <ColumnMenuPopover editor={editor} />
+          </TableMenuHandle>
+        )}
+        {rowMenuPluginProps && (
+          <TableMenuHandle pluginProps={rowMenuPluginProps}>
+            <RowMenuPopover editor={editor} />
+          </TableMenuHandle>
+        )}
+      </div>
 
       <TableAddRowColumnHandle
         pluginProps={{
@@ -87,6 +89,15 @@ export const TableHandle = ({ editor }: { editor: Editor | null }) => {
       >
         <AddRowButton editor={editor} />
       </TableAddRowColumnHandle>
+
+      {/* <TableAddColumnHandle
+        pluginProps={{
+          editor,
+          pluginKey: addColumnPluginKey,
+        }}
+      >
+        <AddColumnButton editor={editor} />
+      </TableAddColumnHandle> */}
 
       {tableSelectionOverlayProps && (
         <TableSelectionOverlay pluginProps={tableSelectionOverlayProps}>
