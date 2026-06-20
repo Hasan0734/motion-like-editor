@@ -37,6 +37,10 @@ import {
 import { AlignmentDropdown } from "./AlignmentContent";
 import { TableMenuItem } from "./TableMenuItem";
 import { ColorsDropdwon } from "./Colors";
+import { deleteCellSelection } from "@tiptap/pm/tables";
+import { getTableColumnMeta } from "../utils/getTableColumnMeta";
+import { moveActiveColumn } from "../utils/moveActiveColumn";
+import { moveActiveRow } from "../utils/moveActiveRow";
 
 export const ITEM_CLASSNAME =
   "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer w-full";
@@ -72,12 +76,15 @@ export const TableMenuPopover = ({
       .run();
   };
 
+  const { isInsideTable, isFirstColumn, isLastColumn, isFirstRow, isLastRow } =
+    getTableColumnMeta(editor);
+
   return (
     <DropdownMenu open={opened} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger
         className={cn(triggerStyles, {
           "bg-primary text-primary-foreground": opened,
-          "text-secondary-foreground bg-secondary hover:bg-secondary/70":
+          "text-secondary-foreground bg-accent":
             !opened,
         })}
       >
@@ -95,12 +102,26 @@ export const TableMenuPopover = ({
             <TableMenuItem
               icon={isRow ? ArrowUp : ArrowLeft}
               label={isRow ? "Move row up" : "Move column left"}
-              onClick={() => editor.chain().focus().run()} // Add custom move commands here if you have them
+              onClick={() => {
+                if (isRow) {
+                  moveActiveRow(editor, "up");
+                  return;
+                }
+                moveActiveColumn(editor, "left");
+              }}
+              disabled={isRow ? isFirstRow : isFirstColumn}
             />
             <TableMenuItem
               icon={isRow ? ArrowDown : ArrowRight}
               label={isRow ? "Move row down" : "Move column right"}
-              onClick={() => editor.chain().focus().run()}
+              onClick={() => {
+                if (isRow) {
+                  moveActiveRow(editor, "down");
+                  return;
+                }
+                moveActiveColumn(editor, "right");
+              }}
+              disabled={isRow ? isLastRow : isLastColumn}
             />
           </DropdownMenuGroup>
 
@@ -148,37 +169,44 @@ export const TableMenuPopover = ({
           <DropdownMenuGroup>
             <ColorsDropdwon editor={editor} />
             <AlignmentDropdown editor={editor} />
-          </DropdownMenuGroup>
-
-          <DropdownMenuSeparator />
-
-          {/* 5. Utility Content Modification Actions */}
-          <DropdownMenuGroup>
             <TableMenuItem
               icon={SquareX}
               label={isRow ? "Clear row contents" : "Clear column contents"}
-              onClick={() => editor.chain().focus().run()}
+              onClick={() =>
+                editor
+                  .chain()
+                  .focus()
+                  .command(({ state, dispatch }) => {
+                    return deleteCellSelection(state, dispatch);
+                  })
+                  .run()
+              }
             />
+          </DropdownMenuGroup>
+
+          {/* 5. Utility Content Modification Actions */}
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuGroup>
             <TableMenuItem
               icon={CopyIcon}
               label={isRow ? "Duplicate row" : "Duplicate column"}
               onClick={() => editor.chain().focus().run()}
             />
+
+            {/* 6. Destructive Delete Actions */}
+            <TableMenuItem
+              icon={Trash}
+              label={isRow ? "Delete row" : "Delete column"}
+              variant="destructive"
+              onClick={() =>
+                isRow
+                  ? editor.chain().focus().deleteRow().run()
+                  : editor.chain().focus().deleteColumn().run()
+              }
+            />
           </DropdownMenuGroup>
-
-          <DropdownMenuSeparator />
-
-          {/* 6. Destructive Delete Actions */}
-          <TableMenuItem
-            icon={Trash}
-            label={isRow ? "Delete row" : "Delete column"}
-            variant="destructive"
-            onClick={() =>
-              isRow
-                ? editor.chain().focus().deleteRow().run()
-                : editor.chain().focus().deleteColumn().run()
-            }
-          />
         </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>

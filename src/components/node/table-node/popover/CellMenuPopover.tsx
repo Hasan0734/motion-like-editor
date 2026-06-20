@@ -140,7 +140,7 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
             <TableMergeIcon /> Split cell
           </DropdownMenuItem>
         </DropdownMenuGroup>
-       {(canMergeCell || canSplitCell) && <DropdownMenuSeparator />}
+        {(canMergeCell || canSplitCell) && <DropdownMenuSeparator />}
         <DropdownMenuGroup>
           <ColorsDropdwon editor={editor} />
           <AlignmentDropdown editor={editor} />
@@ -183,8 +183,11 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub> */}
+        </DropdownMenuGroup>
+        {canClearContents && <DropdownMenuSeparator />}
+        {canClearContents && (
           <DropdownMenuItem
-            hidden={!canClearContents}
+            className={ITEM_CLASSNAME}
             onClick={() => {
               editor
                 .chain()
@@ -195,18 +198,9 @@ export const CellMenuPopover = ({ editor }: { editor: Editor }) => {
                 .run();
             }}
           >
-            Clear contents
+            <SquareX /> Clear column contents
           </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className={ITEM_CLASSNAME}
-          onClick={() => {
-            editor.chain().focus().addColumnAfter().run();
-          }}
-        >
-          <SquareX /> Clear column contents
-        </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

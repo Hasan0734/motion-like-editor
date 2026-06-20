@@ -8,6 +8,7 @@ interface MenuItemProps {
   label: string;
   onClick?: () => void;
   variant?: "default" | "destructive";
+  disabled?: boolean;
 }
 
 // Reusable item wrapper
@@ -16,6 +17,7 @@ export const TableMenuItem = ({
   label,
   onClick,
   variant = "default",
+  disabled = false,
 }: MenuItemProps) => {
   return (
     <DropdownMenuItem
@@ -26,6 +28,7 @@ export const TableMenuItem = ({
           variant === "default",
       })}
       onClick={onClick}
+      disabled={disabled}
     >
       <Icon className="size-4 shrink-0" />
       <span>{label}</span>

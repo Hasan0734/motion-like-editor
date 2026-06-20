@@ -143,7 +143,6 @@ mark[style] > strong {
   color: inherit;
 }
 
-
 .tiptap.ProseMirror ul[data-type="taskList"] {
   padding-left: 0.25em;
 }
@@ -187,12 +186,14 @@ mark[style] > strong {
 
 .tiptap.ProseMirror ul[data-type="taskList"] li label span {
   border: 1px solid var(--color-border);
-  border-radius:  0.25rem;
+  border-radius: 0.25rem;
   cursor: pointer;
   background-color: var(--color-input);
   width: 1em;
   height: 1em;
-  transition: background-color 80ms ease-out, border-color 80ms ease-out;
+  transition:
+    background-color 80ms ease-out,
+    border-color 80ms ease-out;
   display: block;
   position: relative;
 }
@@ -237,13 +238,32 @@ mark[style] > strong {
   min-width: 0;
 }
 
-
 .tiptap.ProseMirror {
-    --tt-indent-unit: 24px
+  --tt-indent-unit: 24px;
 }
 
 .tiptap.ProseMirror [data-indent] {
-    margin-left: calc(var(--tt-indent-unit)*var(--tt-indent-level,0));
-    transition: margin-left .2s ease-in-out
+  margin-left: calc(var(--tt-indent-unit) * var(--tt-indent-level, 0));
+  transition: margin-left 0.2s ease-in-out;
+}
+/* 
+.ProseMirror td:not([data-colwidth]):not(.column-resize-dragging),
+.ProseMirror th:not([data-colwidth]):not(.column-resize-dragging) {
+  min-width: var(--default-cell-min-width);
 }
 
+.ProseMirror .column-resize-handle {
+  z-index: 20;
+  pointer-events: none;
+  background-color: #adf;
+  width: 4px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -2px;
+}
+
+.ProseMirror.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+} */

@@ -50,7 +50,7 @@
   --tt-table-border-color: var(--color-border);
   --tt-table-selected-bg: #c3bdff66;
   --tt-table-selected-stroke: var(--color-blue-600);
-  --tt-table-column-resize-handle-bg: var(--color-red-500);
+  --tt-table-column-resize-handle-bg: var(--color-indigo-500);
   --tt-table-cell-padding: 0.5rem;
   --tt-table-margin-block: 1.25rem;
   --tt-table-pad-block-start: 1rem;
@@ -63,7 +63,7 @@
   --tt-table-border-color: var(--color-border);
   --tt-table-selected-bg: #c3bdff33;
   --tt-table-selected-stroke: var(--tt-color-blue-600);
-  --tt-table-column-resize-handle-bg: var(--color-red-500);
+  --tt-table-column-resize-handle-bg: var(--color-indigo-500);
 }
 
 .tiptap [data-content-type="table"] {
@@ -83,7 +83,7 @@
 
 .tiptap table {
   word-break: break-word;
-  width: auto;
+  /* width: auto; */
 }
 
 .tiptap th,

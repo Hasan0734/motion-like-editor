@@ -45,7 +45,8 @@ export const CustomTable = Table.extend({
             })
 
             table.style.width = tableWidth;
-            table.style.minWidth = tableMinWidth;
+            table.style.setProperty('--default-cell-min-width', '120px');
+            // --default-cell-min-width: 120px; width: 959px;
 
             const colGroup = DOMSerializer.renderSpec(document, colgroup);
 

@@ -16,11 +16,12 @@ export const CustomTableKit = Extension.create({
                 lastColumnResizable: false,
                 allowTableNodeSelection: true,
                 resizable: true,
+                cellMinWidth: 152
             }),
             TableHeader.configure({
                 HTMLAttributes: {
                     class: cn(
-                        "bg-muted dark:bg-gray-900 border p-2 text-start min-w-37.5 font-semibold"
+                        "bg-accent border p-2 text-start min-w-37.5 font-semibold"
                     ),
                 },
             }),

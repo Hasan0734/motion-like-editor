@@ -30,7 +30,7 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: colors },
       { rel: "stylesheet", href: prosemirror },
       { rel: "stylesheet", href: imageCss },
-      // { rel: "stylesheet", href: tableCss },
+      { rel: "stylesheet", href: tableCss },
 
       {
         rel: "apple-touch-icon",
