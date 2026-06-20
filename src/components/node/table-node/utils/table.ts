@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/react";
-import { moveTableColumn, moveTableRow, TableMap } from '@tiptap/pm/tables'
+import { CellSelection, moveTableColumn, moveTableRow, TableMap } from '@tiptap/pm/tables'
 import { Fragment, Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { getTableContext } from "./getTableContext";
 
@@ -293,4 +293,86 @@ export const duplicateActiveColumn = (editor: Editor): boolean => {
     dispatch(tr)
     return true
   }).run()
+}
+
+
+interface SelectionWithCells extends Selection {
+  $anchor: any;
+  forEachCell?: (callback: (node: any, pos: number) => void) => void
+}
+
+interface CellStylingOptions {
+  backgroundColor?: string // e.g., '#ff0000' or 'transparent'
+  textColor?: string       // e.g., '#ffffff'
+}
+
+
+export const setTableCellStyles = (
+  editor: Editor,
+  options: CellStylingOptions
+): boolean => {
+  const { backgroundColor, textColor } = options
+
+  return editor
+    .chain()
+    .focus()
+    .command(({ state, tr, dispatch }) => {
+      const selection = state.selection as unknown as SelectionWithCells
+      const cellsToUpdate: number[] = []
+
+      // 1. Gather targeted absolute cell coordinates
+      if (selection instanceof CellSelection || selection.forEachCell) {
+        // Multi-cell select handle block
+        selection.forEachCell!((_node, pos) => {
+          cellsToUpdate.push(pos)
+        })
+      } else {
+        // Single cell text cursor placement fallback
+        const $pos = selection.$anchor
+        for (let d = $pos.depth; d > 0; d--) {
+          const nodeName = $pos.node(d).type.name
+          if (nodeName === 'tableCell' || nodeName === 'tableHeader') {
+            cellsToUpdate.push($pos.before(d))
+            break
+          }
+        }
+      }
+
+      if (cellsToUpdate.length === 0) return false
+
+      if (dispatch) {
+        cellsToUpdate.forEach((cellPos) => {
+          const cellNode = tr.doc.nodeAt(cellPos)
+          if (!cellNode) return
+
+          // 2. Set Background Color (Modifies the TD/TH node attributes directly)
+          if (backgroundColor !== undefined) {
+            const currentAttrs = cellNode.attrs
+            tr.setNodeMarkup(cellPos, undefined, {
+              ...currentAttrs,
+              background: backgroundColor === 'transparent' ? null : backgroundColor,
+            })
+          }
+
+          // 3. Set Text Color (Modifies internal text nodes within cell boundaries)
+          if (textColor !== undefined) {
+            const cellContentStart = cellPos + 1
+            const cellContentEnd = cellPos + cellNode.nodeSize - 1
+
+            const colorMark = state.schema.marks.textStyle.create({ color: textColor })
+
+            // Remove existing colors within this range to prevent stacked duplicates
+            tr.removeMark(cellContentStart, cellContentEnd, state.schema.marks.textStyle)
+            // Inject new style mark across the inner text boundaries safely
+            tr.addMark(cellContentStart, cellContentEnd, colorMark)
+          }
+        })
+
+        dispatch(tr)
+        return true
+      }
+
+      return true
+    })
+    .run()
 }

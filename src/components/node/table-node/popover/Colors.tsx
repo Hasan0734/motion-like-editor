@@ -20,6 +20,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { ITEM_CLASSNAME } from "./TableMenuPopover";
+import { setTableCellStyles } from "../utils/table";
 
 const RECENT_COLORS_KEY = "recentlyUsedColors";
 const MAX_RECENT = 3;
@@ -75,7 +76,28 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
                   {item.title}
                 </DropdownMenuLabel>
                 {item.colors.map((color) => (
-                  <ColorItem key={color.value} color={color} />
+                  <ColorItem
+                    onClick={() => {
+                      //   setTableCellStyles(editor, {
+                      //     backgroundColor: "#3b82f6", // Tailwind Blue 500
+                      //     textColor: "#ffffff", // White Text
+                      //   });
+                      handleAddRecentUsed(color);
+
+                      if (color.type === "background") {
+                        setTableCellStyles(editor, {
+                          backgroundColor: `var(--tt-color-text-${color.value})`,
+                        });
+                        return;
+                      }
+
+                      setTableCellStyles(editor, {
+                        textColor: `var(--tt-color-text-${color.value})`,
+                      });
+                    }}
+                    key={color.value}
+                    color={color}
+                  />
                 ))}
               </DropdownMenuGroup>
             ))}
@@ -86,9 +108,18 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
-const ColorItem = ({ color }: { color: Color }) => {
+const ColorItem = ({
+  color,
+  onClick,
+}: {
+  color: Color;
+  onClick: () => void;
+}) => {
   return (
-    <DropdownMenuItem className="py-1.5 rounded-lg text-muted-foreground font-medium px-2.5 gap-2">
+    <DropdownMenuItem
+      onClick={onClick}
+      className="py-1.5 rounded-lg text-muted-foreground font-medium px-2.5 gap-2"
+    >
       {color.type === "text" ? (
         <span
           className="size-5 flex items-center justify-center rounded-full tiptap-button-color-text"

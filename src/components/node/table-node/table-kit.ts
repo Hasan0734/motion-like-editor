@@ -2,6 +2,7 @@ import { Extension } from '@tiptap/core'
 import { TableRow, TableCell, TableHeader } from '@tiptap/extension-table'
 import { CustomTable } from './CustomTable'
 import { cn } from '~/lib/utils'
+import { Color } from '@tiptap/extension-text-style'
 
 export const CustomTableKit = Extension.create({
     name: 'custom-table-kit',
@@ -18,7 +19,21 @@ export const CustomTableKit = Extension.create({
                 resizable: true,
                 cellMinWidth: 152
             }),
-            TableHeader.configure({
+            TableHeader.extend({
+                addAttributes() {
+                    return {
+                        ...this.parent?.(),
+                        background: {
+                            default: null,
+                            parseHTML: element => element.style.backgroundColor || null,
+                            renderHTML: attributes => {
+                                if (!attributes.background) return {}
+                                return { style: `background-color: ${attributes.background}` }
+                            },
+                        },
+                    }
+                }
+            }).configure({
                 HTMLAttributes: {
                     class: cn(
                         "bg-accent border p-2 text-start min-w-37.5 font-semibold"
@@ -30,7 +45,14 @@ export const CustomTableKit = Extension.create({
                 addAttributes() {
                     return {
                         ...this.parent?.(),
-
+                        background: {
+                            default: null,
+                            parseHTML: element => element.style.backgroundColor || null,
+                            renderHTML: attributes => {
+                                if (!attributes.background) return {}
+                                return { style: `background-color: ${attributes.background}` }
+                            },
+                        },
                         verticalAlign: {
                             default: 'top',
                             parseHTML: (element) => {
