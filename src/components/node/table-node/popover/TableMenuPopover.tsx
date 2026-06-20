@@ -9,8 +9,7 @@ import {
   CopyIcon,
   EllipsisIcon,
   EllipsisVerticalIcon,
-  PaintBucket,
-  PlusIcon,
+
   SquareX,
   Trash,
 } from "lucide-react";
@@ -20,13 +19,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
 } from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
-import { rowMenuPluginKey } from "../plugins/table-menu-handle-plugin";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import {
   InsertLeftColumn,
@@ -39,8 +34,13 @@ import { TableMenuItem } from "./TableMenuItem";
 import { ColorsDropdwon } from "./Colors";
 import { deleteCellSelection } from "@tiptap/pm/tables";
 import { getTableColumnMeta } from "../utils/getTableColumnMeta";
-import { moveActiveColumn } from "../utils/moveActiveColumn";
-import { moveActiveRow } from "../utils/moveActiveRow";
+
+import {
+  duplicateActiveColumn,
+  duplicateActiveRow,
+  moveActiveColumn,
+  moveActiveRow,
+} from "../utils/table";
 
 export const ITEM_CLASSNAME =
   "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer w-full";
@@ -59,7 +59,6 @@ export const TableMenuPopover = ({
   const [opened, setOpened] = useState(false);
   const isRow = type === "row";
 
-  // Dynamic values depending on row vs column context
   const TriggerIcon = isRow ? EllipsisVerticalIcon : EllipsisIcon;
   const triggerStyles = isRow
     ? "w-3 h-full rounded flex items-center justify-center transition-colors"
@@ -84,8 +83,7 @@ export const TableMenuPopover = ({
       <DropdownMenuTrigger
         className={cn(triggerStyles, {
           "bg-primary text-primary-foreground": opened,
-          "text-secondary-foreground bg-accent":
-            !opened,
+          "text-secondary-foreground bg-accent": !opened,
         })}
       >
         <TriggerIcon className="size-4 shrink-0" />
@@ -103,11 +101,9 @@ export const TableMenuPopover = ({
               icon={isRow ? ArrowUp : ArrowLeft}
               label={isRow ? "Move row up" : "Move column left"}
               onClick={() => {
-                if (isRow) {
-                  moveActiveRow(editor, "up");
-                  return;
-                }
-                moveActiveColumn(editor, "left");
+                isRow
+                  ? moveActiveRow(editor, "up")
+                  : moveActiveColumn(editor, "left");
               }}
               disabled={isRow ? isFirstRow : isFirstColumn}
             />
@@ -115,11 +111,9 @@ export const TableMenuPopover = ({
               icon={isRow ? ArrowDown : ArrowRight}
               label={isRow ? "Move row down" : "Move column right"}
               onClick={() => {
-                if (isRow) {
-                  moveActiveRow(editor, "down");
-                  return;
-                }
-                moveActiveColumn(editor, "right");
+                isRow
+                  ? moveActiveRow(editor, "down")
+                  : moveActiveColumn(editor, "right");
               }}
               disabled={isRow ? isLastRow : isLastColumn}
             />
@@ -192,7 +186,11 @@ export const TableMenuPopover = ({
             <TableMenuItem
               icon={CopyIcon}
               label={isRow ? "Duplicate row" : "Duplicate column"}
-              onClick={() => editor.chain().focus().run()}
+              onClick={() =>
+                isRow
+                  ? duplicateActiveRow(editor)
+                  : duplicateActiveColumn(editor)
+              }
             />
 
             {/* 6. Destructive Delete Actions */}

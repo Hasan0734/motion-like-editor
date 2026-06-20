@@ -1,6 +1,7 @@
 import { Editor } from "@tiptap/react";
-import { Fragment } from "@tiptap/pm/model";
-import { TableMap } from "@tiptap/pm/tables";
+import { moveTableColumn, moveTableRow, TableMap } from '@tiptap/pm/tables'
+import { Fragment, Node as ProsemirrorNode } from '@tiptap/pm/model'
+import { getTableContext } from "./getTableContext";
 
 /**
  * Inserts a blank row at the very bottom of a table without changing selection.
@@ -183,4 +184,113 @@ function setColumnWidth(
   view.dispatch(tr);
 
   return true;
+}
+/**
+ * Moves the currently active table column left or right.
+ */
+export const moveActiveColumn = (editor: Editor, direction: 'left' | 'right'): boolean => {
+  return editor.chain().focus().command(({ state, dispatch }) => {
+    const context = getTableContext(state)
+    if (!context) return false
+
+    const currentColumnIndex = context.cellRect.left
+    const targetColumnIndex = direction === 'left' ? currentColumnIndex - 1 : currentColumnIndex + 1
+
+    if (targetColumnIndex >= 0 && targetColumnIndex < context.map.width) {
+      if (dispatch) {
+        return moveTableColumn({ from: currentColumnIndex, to: targetColumnIndex })(state, dispatch)
+      }
+      return true
+    }
+    return false
+  }).run()
+}
+
+/**
+ * Moves the currently active table row up or down.
+ */
+export const moveActiveRow = (editor: Editor, direction: 'up' | 'down'): boolean => {
+  return editor.chain().focus().command(({ state, dispatch }) => {
+    const context = getTableContext(state)
+    if (!context) return false
+
+    const currentRowIndex = context.cellRect.top
+    const targetRowIndex = direction === 'up' ? currentRowIndex - 1 : currentRowIndex + 1
+
+    if (targetRowIndex >= 0 && targetRowIndex < context.map.height) {
+      if (dispatch) {
+        return moveTableRow({ from: currentRowIndex, to: targetRowIndex })(state, dispatch)
+      }
+      return true
+    }
+    return false
+  }).run()
+}
+
+/**
+ * Duplicates the active row, copying its structure and contents cleanly.
+ */
+export const duplicateActiveRow = (editor: Editor): boolean => {
+  return editor.chain().focus().command(({ state, dispatch }) => {
+    const context = getTableContext(state)
+    if (!context || !dispatch) return false
+
+    const { tableNode, tablePos, cellRect } = context
+    const currentRowIndex = cellRect.top
+    const tr = state.tr
+
+    // 1. Capture content of the current row node
+    const targetRowNode = tableNode.child(currentRowIndex)
+    const duplicatedRow = targetRowNode.copy(Fragment.fromJSON(state.schema, targetRowNode.content.toJSON()))
+
+    // 2. Find absolute character index where the current row ends
+    let insertRowOffset = tablePos + 1
+    for (let i = 0; i <= currentRowIndex; i++) {
+      insertRowOffset += tableNode.child(i).nodeSize
+    }
+
+    // 3. Inject the duplicated row node inside the structural transaction
+    tr.insert(insertRowOffset, duplicatedRow)
+    dispatch(tr)
+    return true
+  }).run()
+}
+
+/**
+ * Duplicates the active column, copying cell nodes down the vertical stack.
+ */
+export const duplicateActiveColumn = (editor: Editor): boolean => {
+  return editor.chain().focus().command(({ state, dispatch }) => {
+    const context = getTableContext(state)
+    if (!context || !dispatch) return false
+
+    const { tableNode, tablePos, map, cellRect } = context
+    const currentColumnIndex = cellRect.left
+    const tr = state.tr
+
+    // 1. Map out structural changes row-by-row in backward order to safeguard mapping offsets
+    let relativePositionOffset = 0
+
+    for (let r = 0; r < map.height; r++) {
+      const mapIndex = r * map.width + currentColumnIndex
+      const localCellPos = map.map[mapIndex]
+      const cellAbsolutePos = tablePos + 1 + localCellPos
+
+      const originalCellNode = state.doc.nodeAt(cellAbsolutePos)
+      if (!originalCellNode) continue
+
+      const duplicatedCell = originalCellNode.copy(Fragment.fromJSON(state.schema, originalCellNode.content.toJSON()))
+
+      // Calculate target insertion offset (directly after the original cell ends)
+      const insertionPoint = cellAbsolutePos + originalCellNode.nodeSize + relativePositionOffset
+
+      tr.insert(insertionPoint, duplicatedCell)
+
+      // Accumulate mapping position offset shift dynamically inside this transaction cycle
+      relativePositionOffset += duplicatedCell.nodeSize
+    }
+
+    dispatch(tr)
+    return true
+  }).run()
 }
