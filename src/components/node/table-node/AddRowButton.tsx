@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { Plus } from "lucide-react";
 import { Editor } from "@tiptap/react";
-import { Fragment } from "@tiptap/pm/model";
 import { deleteEmptyRowFromBottom, insertRowAtBottom } from "./utils/table";
 
 export function AddRowButton({ editor }: { editor: Editor }) {

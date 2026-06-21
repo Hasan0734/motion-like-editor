@@ -1,4 +1,4 @@
-import { AtSign, Minus } from "lucide-react";
+import { Minus } from "lucide-react";
 import { BlockItem } from "./types";
 
 export const separator: BlockItem = {

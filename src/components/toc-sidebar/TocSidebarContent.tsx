@@ -1,5 +1,4 @@
 import { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
-import React from "react";
 import { cn } from "~/lib/utils";
 
 const TocSidebarContent = ({

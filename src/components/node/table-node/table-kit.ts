@@ -2,7 +2,6 @@ import { Extension } from '@tiptap/core'
 import { TableRow, TableCell, TableHeader } from '@tiptap/extension-table'
 import { CustomTable } from './CustomTable'
 import { cn } from '~/lib/utils'
-import { Color } from '@tiptap/extension-text-style'
 
 export const CustomTableKit = Extension.create({
     name: 'custom-table-kit',

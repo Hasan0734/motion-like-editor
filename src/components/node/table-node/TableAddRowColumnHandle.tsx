@@ -1,10 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import {
-  TableMenuHandlePlugin,
-  TableMenuHandlePluginProps,
-} from "./plugins/table-menu-handle-plugin";
-import {
   TableAddRowPlugin,
   TableAddRowPluginProps,
 } from "./plugins/add-row-plugin";

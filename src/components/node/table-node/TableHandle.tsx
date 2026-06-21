@@ -5,14 +5,12 @@ import {
   columnMenuPluginKey,
   rowMenuPluginKey,
 } from "./plugins/table-menu-handle-plugin";
-import { ColumnMenuPopover } from "./popover/ColumnMenuPopover";
 import { CellMenuPopover } from "./popover/CellMenuPopover";
 import {
   TableSelectionOverlay,
   TableSelectionOverlayProps,
 } from "./TableSelectionOverlay";
 import { PluginKey } from "@tiptap/pm/state";
-import { RowMenuPopover } from "./popover/RowMenuPopover";
 import { addRowPluginKey } from "./plugins/plugin-keys";
 import { AddRowButton } from "./AddRowButton";
 import { TableAddRowColumnHandle } from "./TableAddRowColumnHandle";

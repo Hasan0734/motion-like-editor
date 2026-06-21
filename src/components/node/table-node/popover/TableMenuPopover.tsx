@@ -1,15 +1,12 @@
 import { Editor } from "@tiptap/core";
 import {
   ArrowDown,
-  ArrowDownZA,
   ArrowLeft,
   ArrowRight,
   ArrowUp,
-  ArrowUpAZ,
   CopyIcon,
   EllipsisIcon,
   EllipsisVerticalIcon,
-
   SquareX,
   Trash,
 } from "lucide-react";
@@ -41,6 +38,7 @@ import {
   moveActiveColumn,
   moveActiveRow,
 } from "../utils/table";
+import { hasTableDimensionContent } from "../utils";
 
 export const ITEM_CLASSNAME =
   "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer w-full";
@@ -78,6 +76,9 @@ export const TableMenuPopover = ({
   const { isInsideTable, isFirstColumn, isLastColumn, isFirstRow, isLastRow } =
     getTableColumnMeta(editor);
 
+  const isRowClearable = hasTableDimensionContent(editor!, "row");
+  const isColumnClearable = hasTableDimensionContent(editor!, "column");
+
   return (
     <DropdownMenu open={opened} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger
@@ -94,7 +95,7 @@ export const TableMenuPopover = ({
         align="start"
         side={isRow ? "right" : "bottom"}
       >
-        <ScrollArea className="h-80 overflow-hidden overflow-y-auto p-0.5 pr-3">
+        <ScrollArea className="h-70 overflow-hidden overflow-y-auto p-0.5 pr-3">
           {/* 1. Re-ordering Actions */}
           <DropdownMenuGroup>
             <TableMenuItem
@@ -146,36 +147,47 @@ export const TableMenuPopover = ({
           <DropdownMenuSeparator />
 
           {/* 3. Sorting Actions */}
-          <DropdownMenuGroup>
-            <TableMenuItem
-              icon={ArrowUpAZ}
-              label={isRow ? "Sort row A-Z" : "Sort column A-Z"}
-              onClick={() => editor.chain().focus().run()}
-            />
-            <TableMenuItem
-              icon={ArrowDownZA}
-              label={isRow ? "Sort row Z-A" : "Sort column Z-A"}
-              onClick={() => editor.chain().focus().run()}
-            />
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
+          {/* {isSortable && (
+            <Fragment>
+              <DropdownMenuGroup>
+                <TableMenuItem
+                  icon={ArrowUpAZ}
+                  label={isRow ? "Sort row A-Z" : "Sort column A-Z"}
+                  onClick={() => {
+                    sortActiveColumn(editor!, "asc");
+                  }}
+                />
+                <TableMenuItem
+                  icon={ArrowDownZA}
+                  label={isRow ? "Sort row Z-A" : "Sort column Z-A"}
+                  onClick={() => {
+                    sortActiveColumn(editor!, "desc");
+                  }}
+                />
+              </DropdownMenuGroup>
+
+              <DropdownMenuSeparator />
+            </Fragment>
+          )} */}
 
           <DropdownMenuGroup>
             <ColorsDropdwon editor={editor} />
             <AlignmentDropdown editor={editor} />
-            <TableMenuItem
-              icon={SquareX}
-              label={isRow ? "Clear row contents" : "Clear column contents"}
-              onClick={() =>
-                editor
-                  .chain()
-                  .focus()
-                  .command(({ state, dispatch }) => {
-                    return deleteCellSelection(state, dispatch);
-                  })
-                  .run()
-              }
-            />
+            {(isRowClearable || isColumnClearable) && (
+              <TableMenuItem
+                icon={SquareX}
+                label={isRow ? "Clear row contents" : "Clear column contents"}
+                onClick={() =>
+                  editor
+                    .chain()
+                    .focus()
+                    .command(({ state, dispatch }) => {
+                      return deleteCellSelection(state, dispatch);
+                    })
+                    .run()
+                }
+              />
+            )}
           </DropdownMenuGroup>
 
           {/* 5. Utility Content Modification Actions */}

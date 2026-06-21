@@ -1,5 +1,5 @@
 import type { BlockItem } from './types';
-import { MousePointer, ArrowUpRightSquare, Table } from 'lucide-react';
+import { Table } from 'lucide-react';
 
 export const table: BlockItem = {
   title: 'Table',

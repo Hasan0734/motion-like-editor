@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Editor, useEditorState } from "@tiptap/react";
 import { TocUIList } from "./TocUIList";
 import { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
 import { cn } from "~/lib/utils";
-import { Command, CommandItem } from "~/components/ui/command";
-import { ScrollArea } from "~/components/ui/scroll-area";
 import TocSidebarContent from "./TocSidebarContent";
 import TocPopover from "./TocPopover";
 

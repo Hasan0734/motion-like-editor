@@ -8,7 +8,6 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { TableOfContents } from '@tiptap/extension-table-of-contents'
-// import { TableKit } from '@tiptap/extension-table'
 import { Gapcursor, Dropcursor } from '@tiptap/extensions'
 import { Document } from '@tiptap/extension-document'
 import { Mention } from '@tiptap/extension-mention'
@@ -39,7 +38,6 @@ import { CustomImage } from '../node/image/CustomImage';
 import UniqueID from '@tiptap/extension-unique-id'
 import { ImageUploadNode } from '../node/image-upload';
 
-import { TableKit } from '@tiptap/extension-table';
 import { CustomTableKit } from '../node/table-node/table-kit';
 
 // import css from 'highlight.js/lib/languages/css'
@@ -129,17 +127,6 @@ export function extensions(props: ExtensionProps) {
             class: "transition-all duration-300 ease-out"
         }),
         CustomTableKit,
-        // TableHandleExtension,
-
-        // TableNodeExtension.configure({
-        //     table: {
-        //         resizable: true,
-
-        //     }
-        // }),
-
-        // TableHandleExtension,
-
 
         Mention.configure({
             HTMLAttributes: {

@@ -451,3 +451,70 @@ export const setTableCellAlignment = (
     })
     .run()
 }
+
+
+/**
+ * Sorts table rows based on the text properties of the active column.
+ * Skips the first row if it consists purely of tableHeaders.
+ */
+export const sortActiveColumn = (editor: Editor, order: 'asc' | 'desc'): boolean => {
+  return editor
+    .chain()
+    .focus()
+    .command(({ state, dispatch }) => {
+      const context = getTableContext(state)
+      if (!context || !dispatch) return false
+
+      const { tableNode, tablePos, map, cellRect } = context
+      const currentColumnIndex = cellRect.left
+      const tr = state.tr
+
+      const rowsData: { rowNode: any; textContent: string }[] = []
+      let startRowIndex = 0
+
+      // 1. Detect if the first row is a header row to avoid sorting it
+      const firstRowCells = tableNode.child(0)
+      const isFirstRowHeader = firstRowCells.child(0).type.name === 'tableHeader'
+      if (isFirstRowHeader) {
+        startRowIndex = 1
+      }
+
+      // 2. Extract and match text data arrays from rows
+      for (let r = startRowIndex; r < map.height; r++) {
+        const rowNode = tableNode.child(r)
+        const mapIndex = r * map.width + currentColumnIndex
+        const cellLocalPos = map.map[mapIndex]
+        const cellNode = tableNode.nodeAt(cellLocalPos)
+
+        rowsData.push({
+          rowNode,
+          textContent: cellNode ? cellNode.textContent.trim().toLowerCase() : '',
+        })
+      }
+
+      // 3. Perform sorting comparison using native JavaScript collators
+      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })
+      rowsData.sort((a, b) => {
+        const comparison = collator.compare(a.textContent, b.textContent)
+        return order === 'asc' ? comparison : -comparison
+      })
+
+      // 4. Reconstruct row layouts mapping nodes internally
+      const updatedRows: any[] = []
+      if (isFirstRowHeader) {
+        updatedRows.push(tableNode.child(0)) // Keep header at the top
+      }
+      rowsData.forEach((item) => updatedRows.push(item.rowNode))
+
+      // 5. Overwrite the table's structural contents inside the transaction safely
+      const tableContentStart = tablePos + 1
+      const tableContentEnd = tablePos + tableNode.nodeSize - 1
+
+      const newTableContent = Fragment.from(updatedRows)
+      tr.replaceWith(tableContentStart, tableContentEnd, newTableContent)
+
+      dispatch(tr)
+      return true
+    })
+    .run()
+}

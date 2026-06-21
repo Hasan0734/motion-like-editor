@@ -1,11 +1,9 @@
 import { Editor } from "@tiptap/core";
 import { BubbleMenu } from "@tiptap/react/menus";
 import ToggleButton from "../ToggleButton";
-import { Download, RefreshCcw, Trash, Trash2 } from "lucide-react";
+import { Download, RefreshCcw, Trash2 } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { AlignCenter, AlignLeft, AlignRight, CaptionIcon } from "./icon";
-import { useEditorState } from "@tiptap/react";
-import { Dispatch, SetStateAction } from "react";
+import { AlignCenter, AlignLeft, AlignRight } from "./icon";
 
 interface ImageBubbleMenuProps {
   editor: Editor | null;
