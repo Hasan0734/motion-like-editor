@@ -9,6 +9,7 @@ interface MenuItemProps {
   onClick?: () => void;
   variant?: "default" | "destructive";
   disabled?: boolean;
+  className?: string
 }
 
 // Reusable item wrapper
@@ -18,10 +19,11 @@ export const TableMenuItem = ({
   onClick,
   variant = "default",
   disabled = false,
+  className
 }: MenuItemProps) => {
   return (
     <DropdownMenuItem
-      className={cn(ITEM_CLASSNAME, {
+      className={cn(ITEM_CLASSNAME, className, {
         "text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive":
           variant === "destructive",
         "text-muted-foreground hover:bg-accent hover:text-accent-foreground":

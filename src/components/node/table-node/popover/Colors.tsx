@@ -68,7 +68,7 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
       </DropdownMenuSubTrigger>
 
       <DropdownMenuPortal>
-        <DropdownMenuSubContent sideOffset={8} className="w-55 pr-px">
+        <DropdownMenuSubContent sideOffset={8} className="w-55 pr-px z-120">
           <ScrollArea className="h-90 p-0.5 pr-3">
             {items.map((item) => (
               <DropdownMenuGroup key={item.title}>

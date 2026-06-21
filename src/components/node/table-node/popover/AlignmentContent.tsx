@@ -17,8 +17,14 @@ import {
 } from "lucide-react";
 import { AlignmentIcon } from "~/components/color/icon";
 import { ITEM_CLASSNAME } from "./TableMenuPopover";
+import { setTableCellAlignment } from "../utils/table";
+import { getActiveTableCellAlignment } from "../utils/getActiveTableCellAlignment";
 
 export const AlignmentDropdown = ({ editor }: { editor: Editor }) => {
+  const { horizontal, vertical } = getActiveTableCellAlignment(editor);
+
+  console.log(horizontal === "right");
+
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger className={ITEM_CLASSNAME}>
@@ -29,22 +35,43 @@ export const AlignmentDropdown = ({ editor }: { editor: Editor }) => {
         <DropdownMenuSubContent
           sideOffset={8}
           alignOffset={-90}
-          className="w-50"
+          className="w-50 z-120"
         >
           <TableMenuItem
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                horizontal: "left",
+              })
+            }
             icon={TextAlignStart}
             label="Align left"
-            onClick={() => editor.chain().focus().run()}
+            className={
+              horizontal === "left" ? "text-foreground! bg-accent!" : ""
+            }
           />
           <TableMenuItem
             icon={TextAlignCenter}
             label="Align center"
-            onClick={() => editor.chain().focus().run()}
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                horizontal: "center",
+              })
+            }
+            className={
+              horizontal === "center" ? "text-foreground! bg-accent!" : ""
+            }
           />
           <TableMenuItem
             icon={TextAlignEnd}
             label="Align right"
-            onClick={() => editor.chain().focus().run()}
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                horizontal: "right",
+              })
+            }
+            className={
+              horizontal === "right" ? "text-foreground! bg-accent!" : ""
+            }
           />
 
           <DropdownMenuSeparator />
@@ -52,17 +79,36 @@ export const AlignmentDropdown = ({ editor }: { editor: Editor }) => {
           <TableMenuItem
             icon={AlignVerticalJustifyStart}
             label="Align top"
-            onClick={() => editor.chain().focus().run()}
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                vertical: "top",
+              })
+            }
+            className={vertical === "top" ? "text-foreground! bg-accent!" : ""}
           />
           <TableMenuItem
             icon={AlignVerticalJustifyCenter}
             label="Align middle"
-            onClick={() => editor.chain().focus().run()}
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                vertical: "middle",
+              })
+            }
+            className={
+              vertical === "middle" ? "text-foreground! bg-accent!" : ""
+            }
           />
           <TableMenuItem
             icon={AlignVerticalJustifyEnd}
             label="Align bottom"
-            onClick={() => editor.chain().focus().run()}
+            onClick={() =>
+              setTableCellAlignment(editor, {
+                vertical: "bottom",
+              })
+            }
+            className={
+              vertical === "bottom" ? "text-foreground! bg-accent!" : ""
+            }
           />
         </DropdownMenuSubContent>
       </DropdownMenuPortal>

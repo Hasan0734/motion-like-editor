@@ -376,3 +376,78 @@ export const setTableCellStyles = (
     })
     .run()
 }
+
+
+interface SelectionWithCells extends Selection {
+  forEachCell?: (callback: (node: any, pos: number) => void) => void
+}
+
+type HorizontalAlign = 'left' | 'center' | 'right' | 'justify'
+type VerticalAlign = 'top' | 'middle' | 'bottom'
+
+interface CellAlignmentOptions {
+  horizontal?: HorizontalAlign
+  vertical?: VerticalAlign
+}
+
+export const setTableCellAlignment = (
+  editor: Editor,
+  options: CellAlignmentOptions
+): boolean => {
+  const { horizontal, vertical } = options
+
+  return editor
+    .chain()
+    .focus()
+    .command(({ state, tr, dispatch }) => {
+      const selection = state.selection as unknown as SelectionWithCells
+      const cellsToUpdate: number[] = []
+
+      // 1. Gather all targeted cell positions
+      if (selection instanceof CellSelection || selection.forEachCell) {
+        selection.forEachCell!((_node, pos) => {
+          cellsToUpdate.push(pos)
+        })
+      } else {
+        const $pos = selection.$anchor
+        for (let d = $pos.depth; d > 0; d--) {
+          const nodeName = $pos.node(d).type.name
+          if (nodeName === 'tableCell' || nodeName === 'tableHeader') {
+            cellsToUpdate.push($pos.before(d))
+            break
+          }
+        }
+      }
+
+      if (cellsToUpdate.length === 0) return false
+
+      if (dispatch) {
+        cellsToUpdate.forEach((cellPos) => {
+          const cellNode = tr.doc.nodeAt(cellPos)
+          if (!cellNode) return
+
+          // Clone existing node attributes to keep colors or spans intact
+          const updatedAttrs = { ...cellNode.attrs }
+
+          // 2. Set horizontal property safely
+          if (horizontal) {
+            updatedAttrs.alignment = horizontal
+          }
+
+          // 3. Set vertical property safely
+          if (vertical) {
+            updatedAttrs.verticalAlignment = vertical
+          }
+
+          // 4. Update the node markup structural properties in the transaction
+          tr.setNodeMarkup(cellPos, undefined, updatedAttrs)
+        })
+
+        dispatch(tr)
+        return true
+      }
+
+      return true
+    })
+    .run()
+}

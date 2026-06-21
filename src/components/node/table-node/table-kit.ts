@@ -31,6 +31,23 @@ export const CustomTableKit = Extension.create({
                                 return { style: `background-color: ${attributes.background}` }
                             },
                         },
+                        alignment: {
+                            default: 'left',
+                            parseHTML: element => element.style.textAlign || 'left',
+                            renderHTML: attributes => {
+                                if (!attributes.alignment) return {}
+                                return { style: `text-align: ${attributes.alignment}` }
+                            },
+                        },
+                        verticalAlign: {
+                            default: 'top',
+                            parseHTML: (element) => {
+                                return element.style.verticalAlign || "top"
+                            },
+                            renderHTML: (attributes) => {
+                                return { style: `vertical-align: ${attributes.verticalAlign}` }
+                            }
+                        }
                     }
                 }
             }).configure({
@@ -51,6 +68,14 @@ export const CustomTableKit = Extension.create({
                             renderHTML: attributes => {
                                 if (!attributes.background) return {}
                                 return { style: `background-color: ${attributes.background}` }
+                            },
+                        },
+                        alignment: {
+                            default: 'left',
+                            parseHTML: element => element.style.textAlign || 'left',
+                            renderHTML: attributes => {
+                                if (!attributes.alignment) return {}
+                                return { style: `text-align: ${attributes.alignment}` }
                             },
                         },
                         verticalAlign: {
