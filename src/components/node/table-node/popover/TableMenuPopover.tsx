@@ -41,7 +41,7 @@ import {
 import { hasTableDimensionContent } from "../utils";
 
 export const ITEM_CLASSNAME =
-  "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer w-full";
+  "flex items-center gap-2 px-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer w-full";
 
 interface TableMenuPopoverProps {
   editor: Editor;
