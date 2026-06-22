@@ -1,6 +1,6 @@
 import { ReactRenderer } from '@tiptap/react';
 import { SuggestionOptions, SuggestionProps } from '@tiptap/suggestion';
-import MentionList, { DropdownMenuRef } from './MentionList'; // Importing the Ref type we made in the previous step
+import MentionList, { DropdownMenuRef } from './MentionList'; 
 import { updatePosition } from '~/lib/utils';
 
 const allItems: string[] = [
