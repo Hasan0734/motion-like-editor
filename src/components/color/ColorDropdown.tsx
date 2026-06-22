@@ -1,5 +1,4 @@
 import { CSSProperties, useState } from "react";
-
 import { ChevronDown } from "lucide-react";
 import TooltipWraper from "../TooltipWrapper";
 import { Button } from "../ui/button";
@@ -10,91 +9,13 @@ import TextButton from "./TextButton";
 import HighlightButton from "./HighlightButton";
 import { TextIcon } from "./icon";
 import { useEditorState } from "@tiptap/react";
+import { Color, GroupColors } from "./type";
+import { groupColors } from "./constant";
+import { getRecentColors, handleAddRecentUsed } from "./utils";
 
-const RECENT_COLORS_KEY = "recentlyUsedColors";
-const MAX_RECENT = 3;
-
-export const getRecentColors = (): Color[] => {
-  if (typeof window === "undefined") return [];
-  const stored = localStorage.getItem(RECENT_COLORS_KEY);
-  return stored ? JSON.parse(stored) : [];
-};
-
-export type Color = {
-  name: string;
-  value: string;
-  type: string;
-};
-
-export type GroupColors = {
-  title: string;
-  colors: Color[];
-};
-export const colors: Color[] = [
-  {
-    name: "Default",
-    value: "default",
-    type: "",
-  },
-  {
-    name: "Gray",
-    value: "gray",
-    type: "",
-  },
-  {
-    name: "Brown",
-    value: "brown",
-    type: "",
-  },
-  {
-    name: "Orange",
-    value: "orange",
-    type: "",
-  },
-  {
-    name: "Yellow",
-    value: "yellow",
-    type: "",
-  },
-  {
-    name: "Green",
-    value: "green",
-    type: "",
-  },
-  {
-    name: "Blue",
-    value: "blue",
-    type: "",
-  },
-  {
-    name: "Purple",
-    value: "purple",
-    type: "",
-  },
-  {
-    name: "Pink",
-    value: "pink",
-    type: "",
-  },
-  {
-    name: "Red",
-    value: "red",
-    type: "",
-  },
-];
-
-export const groupColors: GroupColors[] = [
-  {
-    title: "Text color",
-    colors: colors.map((color) => ({ ...color, type: "text" })),
-  },
-  {
-    title: "Background color",
-    colors: colors.map((color) => ({ ...color, type: "background" })),
-  },
-];
 
 const ColorDropdown = ({ editor }: { editor: Editor }) => {
+
   const [items, setItems] = useState<GroupColors[]>(() => {
     const recent = getRecentColors();
     if (recent.length > 0) {
@@ -111,21 +32,6 @@ const ColorDropdown = ({ editor }: { editor: Editor }) => {
     }),
   });
 
-  const handleAddRecentUsed = (color: Color) => {
-    const currentRecent = getRecentColors();
-
-    const filtered = currentRecent.filter(
-      (c) => c.value !== color.value || c.type !== color.type,
-    );
-
-    const updatedRecent = [color, ...filtered].slice(0, MAX_RECENT);
-    localStorage.setItem(RECENT_COLORS_KEY, JSON.stringify(updatedRecent));
-
-    setItems(() => {
-      const recentItem = { title: "Recently used", colors: updatedRecent };
-      return [recentItem, ...groupColors];
-    });
-  };
 
   return (
     <Popover>
@@ -150,7 +56,9 @@ const ColorDropdown = ({ editor }: { editor: Editor }) => {
       <DropdwonContent
         items={items}
         editor={editor}
-        handleAddRecentUsed={handleAddRecentUsed}
+        handleAddRecentUsed={(color: Color) =>
+          handleAddRecentUsed(color, setItems)
+        }
       />
     </Popover>
   );

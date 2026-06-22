@@ -39,6 +39,7 @@ import UniqueID from '@tiptap/extension-unique-id'
 import { ImageUploadNode } from '../node/image-upload';
 
 import { CustomTableKit } from '../node/table-node/table-kit';
+import { GlobalBlockBackground } from './global-block-background';
 
 // import css from 'highlight.js/lib/languages/css'
 
@@ -104,6 +105,7 @@ export function extensions(props: ExtensionProps) {
             levels: [1, 2, 3]
         }),
         Paragraph,
+        GlobalBlockBackground,
         Text,
         ListKit.configure({
             listItem: {

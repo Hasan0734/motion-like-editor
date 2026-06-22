@@ -23,7 +23,6 @@ import { getActiveTableCellAlignment } from "../utils/getActiveTableCellAlignmen
 export const AlignmentDropdown = ({ editor }: { editor: Editor }) => {
   const { horizontal, vertical } = getActiveTableCellAlignment(editor);
 
-  console.log(horizontal === "right");
 
   return (
     <DropdownMenuSub>

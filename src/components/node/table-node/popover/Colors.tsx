@@ -1,17 +1,9 @@
 import { Editor } from "@tiptap/core";
-import { useEditorState } from "@tiptap/react";
 import { PaintBucket } from "lucide-react";
-import { CSSProperties, useState } from "react";
-import {
-  GroupColors,
-  getRecentColors,
-  groupColors,
-  Color,
-} from "~/components/color/ColorDropdown";
-import { TextIcon } from "~/components/color/icon";
+import { useState } from "react";
+
 import {
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSub,
@@ -21,9 +13,12 @@ import {
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { ITEM_CLASSNAME } from "./TableMenuPopover";
 import { setTableCellStyles } from "../utils/table";
+import { ColorItem } from "~/components/color/ColorItem";
+import { getRecentColors, handleAddRecentUsed } from "~/components/color/utils";
+import { GroupColors } from "~/components/color/type";
+import { groupColors } from "~/components/color/constant";
 
-const RECENT_COLORS_KEY = "recentlyUsedColors";
-const MAX_RECENT = 3;
+
 
 export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return;
@@ -35,30 +30,6 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
     }
     return groupColors;
   });
-
-  const { textColor, highlightColor } = useEditorState({
-    editor,
-    selector: (ctx) => ({
-      textColor: ctx.editor.getAttributes("textStyle").color,
-      highlightColor: ctx.editor.getAttributes("highlight"),
-    }),
-  });
-
-  const handleAddRecentUsed = (color: Color) => {
-    const currentRecent = getRecentColors();
-
-    const filtered = currentRecent.filter(
-      (c) => c.value !== color.value || c.type !== color.type,
-    );
-
-    const updatedRecent = [color, ...filtered].slice(0, MAX_RECENT);
-    localStorage.setItem(RECENT_COLORS_KEY, JSON.stringify(updatedRecent));
-
-    setItems(() => {
-      const recentItem = { title: "Recently used", colors: updatedRecent };
-      return [recentItem, ...groupColors];
-    });
-  };
 
   return (
     <DropdownMenuSub>
@@ -82,7 +53,7 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
                       //     backgroundColor: "#3b82f6", // Tailwind Blue 500
                       //     textColor: "#ffffff", // White Text
                       //   });
-                      handleAddRecentUsed(color);
+                      handleAddRecentUsed(color, setItems);
 
                       if (color.type === "background") {
                         setTableCellStyles(editor, {
@@ -105,47 +76,5 @@ export const ColorsDropdwon = ({ editor }: { editor: Editor | null }) => {
         </DropdownMenuSubContent>
       </DropdownMenuPortal>
     </DropdownMenuSub>
-  );
-};
-
-const ColorItem = ({
-  color,
-  onClick,
-}: {
-  color: Color;
-  onClick: () => void;
-}) => {
-  return (
-    <DropdownMenuItem
-      onClick={onClick}
-      className="py-1.5 rounded-lg text-muted-foreground font-medium px-2.5 gap-2"
-    >
-      {color.type === "text" ? (
-        <span
-          className="size-5 flex items-center justify-center rounded-full tiptap-button-color-text"
-          style={
-            {
-              color: `var(--tt-color-text-${color.value})`,
-              "--color-text-button-color": `var(--tt-color-text-${color.value})`,
-            } as CSSProperties
-          }
-        >
-          <TextIcon />
-        </span>
-      ) : (
-        <span
-          className="size-5 flex items-center justify-center rounded-full tiptap-button-highlight"
-          style={
-            {
-              "--highlight-color":
-                color.value === "default"
-                  ? "var(--background)"
-                  : `var(--tt-color-highlight-${color.value})`,
-            } as CSSProperties
-          }
-        ></span>
-      )}
-      {color.name} {color.type}
-    </DropdownMenuItem>
   );
 };

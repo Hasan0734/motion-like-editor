@@ -3,7 +3,7 @@ import EditorNav from "./EditorNav";
 import { extensions as defaultExtensions } from "./extensions";
 import { TocSidebar } from "./toc-sidebar/TocSidebar";
 import MyBubbleMenu from "./bubble/MyBubbleMenu";
-import Dragable from "./Dragable";
+import Draggable from "./Draggable";
 import ImageBubbleMenu from "./bubble/ImageBubbleMenu";
 import { TableHandle } from "./node/table-node/TableHandle";
 
@@ -183,10 +183,8 @@ const Editor = () => {
             className="notion-like-editor-content"
             editor={editor}
           />
-
-          <Dragable editor={editor} />
+          <Draggable editor={editor} />
           <TableHandle editor={editor}/>
-          
           <TocSidebar editor={editor} variant="line" />
           <MyBubbleMenu editor={editor} />
           <ImageBubbleMenu editor={editor} onReplaceClick={() => {}} />

@@ -27,7 +27,7 @@ export const CustomTable = Table.extend({
 
             const dom = document.createElement("div");
             dom.setAttribute('data-content-type', 'table');
-            dom.className = cn('mb-4');
+            // dom.className = cn('mb-4');
             const wrapper = document.createElement("div");
             wrapper.className = cn("table-wrapper overflow-x-auto overflow-y-hidden p-4 -ml-4 relative")
 
