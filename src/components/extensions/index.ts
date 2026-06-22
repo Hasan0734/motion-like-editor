@@ -37,9 +37,10 @@ import { FileHandlerExtension } from './file-handle';
 import { CustomImage } from '../node/image/CustomImage';
 import UniqueID from '@tiptap/extension-unique-id'
 import { ImageUploadNode } from '../node/image-upload';
-
+import { Mathematics } from '@tiptap/extension-mathematics'
 import { CustomTableKit } from '../node/table-node/table-kit';
 import { GlobalBlockBackground } from './global-block-background';
+import suggestionConfig from './mention/mentionSuggestion';
 
 // import css from 'highlight.js/lib/languages/css'
 
@@ -57,6 +58,18 @@ export function extensions(props: ExtensionProps) {
     const { blocks, extensions = [] } = props;
 
     const defaultExtensions = [
+      
+        Mathematics.configure({
+            inlineOptions: {
+                // optional options for the inline math node
+            },
+            blockOptions: {
+                // optional options for the block math node
+            },
+            katexOptions: {
+                // optional options for the KaTeX renderer
+            },
+        }),
         UniqueID.configure({
             types: "all",
         }),
@@ -134,7 +147,7 @@ export function extensions(props: ExtensionProps) {
             HTMLAttributes: {
                 class: 'mention',
             },
-            // suggestion,
+            suggestion: suggestionConfig,
         }),
         Emoji.configure({
             emojis: gitHubEmojis,
